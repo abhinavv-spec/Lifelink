@@ -1,0 +1,292 @@
+<!DOCTYPE html><html class="h-full" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>LifeLink - Hospital Registration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f3f4f5",
+                        "inverse-surface": "#2e3132",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#d9dadb",
+                        "surface": "#f8f9fa",
+                        "primary-fixed-dim": "#ffb3b4",
+                        "surface-variant": "#e1e3e4",
+                        "on-secondary-fixed": "#001e2f",
+                        "on-primary": "#ffffff",
+                        "secondary": "#356382",
+                        "on-background": "#191c1d",
+                        "outline-variant": "#e3bebd",
+                        "on-tertiary-container": "#cae6ff",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-surface": "#191c1d",
+                        "inverse-on-surface": "#f0f1f2",
+                        "primary-container": "#c41e3a",
+                        "surface-bright": "#f8f9fa",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#ffdada",
+                        "tertiary": "#005278",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#004b6f",
+                        "on-secondary-container": "#31607f",
+                        "tertiary-fixed": "#cae6ff",
+                        "on-surface-variant": "#5b4040",
+                        "primary": "#9e0027",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-container": "#edeeef",
+                        "primary-fixed": "#ffdad9",
+                        "on-secondary-fixed-variant": "#184b69",
+                        "error": "#ba1a1a",
+                        "background": "#f8f9fa",
+                        "on-primary-fixed": "#40000a",
+                        "inverse-primary": "#ffb3b4",
+                        "secondary-container": "#acdafe",
+                        "secondary-fixed-dim": "#9fccef",
+                        "tertiary-container": "#006b9c",
+                        "on-primary-fixed-variant": "#920023",
+                        "on-tertiary-fixed": "#001e2f",
+                        "surface-tint": "#ba1434",
+                        "secondary-fixed": "#c9e6ff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#8ccdff",
+                        "outline": "#8f6f6f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-margin-mobile": "20px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "base": "8px",
+                        "container-margin-desktop": "40px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "label-bold": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #f8f9fa; }
+    </style>
+</head>
+<body class="h-full flex flex-col antialiased text-on-background pt-16 md:flex"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-surface-variant px-container-margin-mobile md:px-container-margin-desktop h-16 flex items-center justify-between"><div class="flex items-center w-1/3"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">favorite</span><span class="font-display-lg text-headline-md font-bold text-primary">LifeLink</span></div></div><nav class="hidden lg:flex items-center justify-center gap-stack-md w-1/3"><a href="hospital_dashboard.html" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors px-2 py-1 border-b-2 border-primary">Overview</a><a href="donor_match_results.html" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors px-2 py-1 border-b-2 border-transparent">Live Requests</a><a href="hospital_requests.html" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors px-2 py-1 border-b-2 border-transparent">Outreach</a><a href="donor_database.html" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors px-2 py-1 border-b-2 border-transparent">Donor Database</a><a href="hospital_analytics.html" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors px-2 py-1 border-b-2 border-transparent">Analytics</a><a href="hospital_settings.html" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors px-2 py-1 border-b-2 border-transparent">Settings</a></nav><div class="flex items-center justify-end gap-stack-md w-1/3"><div class="flex items-center gap-3 pr-stack-md border-r border-surface-variant"><div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold">CH</div><div class="hidden md:block"><p class="font-label-bold text-label-bold text-on-surface leading-none">City Central Hospital</p><p class="font-body-sm text-label-md text-on-surface-variant">Verified Medical Center</p></div></div><button class="bg-primary-container text-on-primary px-4 py-2 rounded-lg font-label-bold text-label-bold uppercase tracking-wider hover:bg-primary transition-colors shadow-md" onclick="window.location.href='create_request.html'">
+Create Request
+</button><div class="flex items-center gap-2 text-on-surface-variant">
+<div class="relative inline-block" id="notification-wrapper">
+    <button id="notification-btn" class="relative p-2 rounded-full text-on-surface-variant hover:bg-surface-variant/50 transition-colors focus:outline-none flex items-center justify-center">
+        <span class="material-symbols-outlined">notifications</span>
+        <!-- Unread badge -->
+        <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-[#9e0027] rounded-full border-2 border-surface"></span>
+    </button>
+
+    <!-- Dropdown Panel -->
+    <div id="notification-panel" class="hidden absolute right-0 mt-2 w-80 sm:w-96 bg-surface-container-lowest border border-surface-variant rounded-xl shadow-lg z-50 overflow-hidden flex flex-col max-h-[480px]">
+        <!-- Header -->
+        <div class="flex justify-between items-center p-4 border-b border-surface-variant">
+            <h3 class="font-headline-md text-headline-md text-on-surface" style="font-family: 'Montserrat', sans-serif; font-weight: 600;">Notifications</h3>
+            <a href="#" class="text-[#356382] font-body-sm text-sm hover:underline">Mark all as read</a>
+        </div>
+        
+        <!-- List -->
+        <div class="overflow-y-auto flex-1 font-body-md text-body-md" style="font-family: 'Inter', sans-serif;">
+            <!-- Item 1 (Unread, Critical) -->
+            <div class="p-4 border-b border-surface-variant flex gap-3 bg-surface-container-low hover:bg-surface-variant/50 transition-colors cursor-pointer relative">
+                <div class="absolute left-0 top-0 bottom-0 w-1 bg-[#9e0027]"></div>
+                <div class="mt-1 flex-shrink-0">
+                    <div class="w-3 h-3 rounded-full bg-[#9e0027]"></div>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start">
+                        <p class="font-bold text-on-surface text-base">Critical Stock Alert: O-</p>
+                        <span class="text-xs text-on-surface-variant shrink-0 ml-2">2m ago</span>
+                    </div>
+                    <p class="text-sm text-on-surface-variant mt-1">Regional supply dropping below 15%. Broadcast recommended.</p>
+                </div>
+            </div>
+
+            <!-- Item 2 (Unread, Match) -->
+            <div class="p-4 border-b border-surface-variant flex gap-3 bg-surface-container-low hover:bg-surface-variant/50 transition-colors cursor-pointer relative">
+                <div class="absolute left-0 top-0 bottom-0 w-1 bg-[#9e0027]"></div>
+                <div class="mt-1 flex-shrink-0">
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start">
+                        <p class="font-bold text-on-surface text-base">Donor Match Found</p>
+                        <span class="text-xs text-on-surface-variant shrink-0 ml-2">12m ago</span>
+                    </div>
+                    <p class="text-sm text-on-surface-variant mt-1">3 donors have accepted your recent request for A+.</p>
+                </div>
+            </div>
+
+            <!-- Item 3 (Read, Info) -->
+            <div class="p-4 border-b border-surface-variant flex gap-3 bg-surface-container-lowest hover:bg-surface-variant/50 transition-colors cursor-pointer">
+                <div class="mt-1 flex-shrink-0">
+                    <div class="w-3 h-3 rounded-full bg-[#356382]"></div>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start">
+                        <p class="font-bold text-on-surface text-base">New Donor Registered</p>
+                        <span class="text-xs text-on-surface-variant shrink-0 ml-2">1h ago</span>
+                    </div>
+                    <p class="text-sm text-on-surface-variant mt-1">A new O- donor joined within 5 miles of your location.</p>
+                </div>
+            </div>
+
+            <!-- Item 4 (Read, Action) -->
+            <div class="p-4 border-b border-surface-variant flex gap-3 bg-surface-container-lowest hover:bg-surface-variant/50 transition-colors cursor-pointer">
+                <div class="mt-1 flex-shrink-0">
+                    <div class="w-3 h-3 rounded-full bg-[#356382]"></div>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start">
+                        <p class="font-bold text-on-surface text-base">Outreach Message Viewed</p>
+                        <span class="text-xs text-on-surface-variant shrink-0 ml-2">3h ago</span>
+                    </div>
+                    <p class="text-sm text-on-surface-variant mt-1">Metro Blood Center viewed your transfer request.</p>
+                </div>
+            </div>
+
+            <!-- Item 5 (Read, Status) -->
+            <div class="p-4 flex gap-3 bg-surface-container-lowest hover:bg-surface-variant/50 transition-colors cursor-pointer">
+                <div class="mt-1 flex-shrink-0">
+                    <div class="w-3 h-3 rounded-full bg-[#D4AF37]"></div>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start">
+                        <p class="font-bold text-on-surface text-base">Donor Eligibility Update</p>
+                        <span class="text-xs text-on-surface-variant shrink-0 ml-2">1d ago</span>
+                    </div>
+                    <p class="text-sm text-on-surface-variant mt-1">12 donors in your network are now eligible to donate again.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="p-3 border-t border-surface-variant bg-surface-container-lowest text-center">
+            <a href="hospital_analytics.html" class="text-[#356382] font-bold text-sm hover:underline" style="font-family: 'Inter', sans-serif;">View All Notifications</a>
+        </div>
+    </div>
+</div>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary">settings</span></div></div></header>
+<!-- Left Side: Registration Form -->
+<main class="w-full md:w-1/2 flex flex-col justify-center px-container-margin-mobile md:px-container-margin-desktop py-stack-lg bg-surface">
+<div class="max-w-md w-full mx-auto">
+<!-- Brand Header -->
+
+<!-- Form -->
+<form class="space-y-stack-md bg-surface-container-lowest p-stack-md md:p-stack-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-surface-variant">
+<div>
+<label class="block font-label-bold text-label-bold text-on-surface mb-stack-sm uppercase tracking-wider" for="orgName">Organization Name</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface-container-low text-on-surface focus:ring-2 focus:ring-secondary focus:border-secondary outline-none transition-all font-body-md text-body-md" id="orgName" name="orgName" placeholder="Enter full hospital name" type="text">
+</div>
+<div>
+<label class="block font-label-bold text-label-bold text-on-surface mb-stack-sm uppercase tracking-wider" for="regId">Medical Registration ID</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface-container-low text-on-surface focus:ring-2 focus:ring-secondary focus:border-secondary outline-none transition-all font-body-md text-body-md" id="regId" name="regId" placeholder="e.g. HOS-12345-REG" type="text">
+</div>
+<div>
+<label class="block font-label-bold text-label-bold text-on-surface mb-stack-sm uppercase tracking-wider" for="email">Official Email Address</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface-container-low text-on-surface focus:ring-2 focus:ring-secondary focus:border-secondary outline-none transition-all font-body-md text-body-md" id="email" name="email" placeholder="admin@hospital.org" type="email">
+</div>
+<div>
+<label class="block font-label-bold text-label-bold text-on-surface mb-stack-sm uppercase tracking-wider" for="password">Secure Password</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface-container-low text-on-surface focus:ring-2 focus:ring-secondary focus:border-secondary outline-none transition-all font-body-md text-body-md" id="password" name="password" placeholder="••••••••" type="password">
+</div>
+<div class="pt-stack-sm">
+<button class="w-full bg-primary-container text-on-primary rounded-lg py-3 px-4 font-label-bold text-label-bold uppercase tracking-wider hover:bg-primary transition-colors shadow-md active:scale-[0.98]" type="submit">
+                        Register Medical Facility
+                    </button>
+</div>
+<p class="text-center mt-stack-md font-body-sm text-body-sm text-on-surface-variant">
+                    Already registered? <a class="text-secondary font-medium hover:underline" href="hospital_login.html">Log in here</a>
+</p>
+</form>
+</div>
+</main>
+<!-- Right Side: Imagery / Illustration -->
+<aside class="hidden md:flex w-1/2 relative bg-surface-container-highest overflow-hidden">
+<!-- Background Image -->
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A clean, modern medical setting featuring advanced medical equipment subtly blurred in the background. The scene is brightly lit with cool, clinical lighting, conveying trust and technological advancement. A soft blue and white color palette dominates, creating a sterile yet approachable atmosphere suitable for a healthcare networking platform." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAkMGZaHVKbgvB1v_qHnAO8ZFbj_uhaNCmnHYXLSED_-nH4mVYva5cFbnVPjc_vDFxx1kY5KdTfBP7JXk3XQxWQYj2yYf5U9diJ1Q32qwk3dfSggnXg8T58H0OR2ZcJ33_Q7ODu2VWy2_7g8l8RhLEKcVyjP85uhvLiBohkyZstLMX0zpaG8AaQ5tQdyPssaSDyhgwUC8P3IB0V-amW8KllZ07carcyY4xvBIqvjHpMbKH3PMeVW7m2')"></div>
+<!-- Overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/90 to-inverse-surface/20"></div>
+<!-- Messaging Content -->
+<div class="relative z-10 p-container-margin-desktop flex flex-col justify-end h-full text-surface-container-lowest">
+<h2 class="font-display-lg text-display-lg mb-stack-md leading-tight max-w-lg">
+                Connecting Care.<br>Saving Lives.
+            </h2>
+<p class="font-body-lg text-body-lg text-surface-variant max-w-md mb-stack-lg">
+                Join the LifeLink network to rapidly connect with donors during critical emergencies. Seamless coordination when seconds matter most.
+            </p>
+<!-- Trust Indicators -->
+<div class="flex gap-stack-md">
+<div class="flex items-center gap-2 bg-surface/10 backdrop-blur-sm px-4 py-2 rounded-full border border-surface/20">
+<span class="material-symbols-outlined text-primary-fixed" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label-md text-label-md">Verified Network</span>
+</div>
+<div class="flex items-center gap-2 bg-surface/10 backdrop-blur-sm px-4 py-2 rounded-full border border-surface/20">
+<span class="material-symbols-outlined text-secondary-fixed" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="font-label-md text-label-md">Secure Data</span>
+</div>
+</div>
+</div>
+</aside>
+
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const notifBtn = document.getElementById('notification-btn');
+        const notifPanel = document.getElementById('notification-panel');
+        if (notifBtn && notifPanel) {
+            notifBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                notifPanel.classList.toggle('hidden');
+            });
+            document.addEventListener('click', (e) => {
+                if (!notifPanel.contains(e.target)) {
+                    notifPanel.classList.add('hidden');
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

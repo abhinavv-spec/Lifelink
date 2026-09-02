@@ -1,0 +1,342 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>LifeLink - Donor Sign-Up</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config from Style Guidance -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f3f4f5",
+                        "inverse-surface": "#2e3132",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#d9dadb",
+                        "surface": "#f8f9fa",
+                        "primary-fixed-dim": "#ffb3b4",
+                        "surface-variant": "#e1e3e4",
+                        "on-secondary-fixed": "#001e2f",
+                        "on-primary": "#ffffff",
+                        "secondary": "#356382",
+                        "on-background": "#191c1d",
+                        "outline-variant": "#e3bebd",
+                        "on-tertiary-container": "#cae6ff",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-surface": "#191c1d",
+                        "inverse-on-surface": "#f0f1f2",
+                        "primary-container": "#c41e3a",
+                        "surface-bright": "#f8f9fa",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#ffdada",
+                        "tertiary": "#005278",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#004b6f",
+                        "on-secondary-container": "#31607f",
+                        "tertiary-fixed": "#cae6ff",
+                        "on-surface-variant": "#5b4040",
+                        "primary": "#9e0027",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-container": "#edeeef",
+                        "primary-fixed": "#ffdad9",
+                        "on-secondary-fixed-variant": "#184b69",
+                        "error": "#ba1a1a",
+                        "background": "#f8f9fa",
+                        "on-primary-fixed": "#40000a",
+                        "inverse-primary": "#ffb3b4",
+                        "secondary-container": "#acdafe",
+                        "secondary-fixed-dim": "#9fccef",
+                        "tertiary-container": "#006b9c",
+                        "on-primary-fixed-variant": "#920023",
+                        "on-tertiary-fixed": "#001e2f",
+                        "surface-tint": "#ba1434",
+                        "secondary-fixed": "#c9e6ff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#8ccdff",
+                        "outline": "#8f6f6f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-margin-mobile": "20px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "base": "8px",
+                        "container-margin-desktop": "40px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "label-bold": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom styles for subtle animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Pulse for loading state */
+        .pulse-ring {
+            animation: pulseRing 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+        @keyframes pulseRing {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(196, 30, 58, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(196, 30, 58, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(196, 30, 58, 0); }
+        }
+        
+        /* Custom toggle switch styling (Tailwind forms doesn't fully cover this natively easily without extra markup) */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #c41e3a; /* Primary Crimson */
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #c41e3a;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen flex flex-col">
+<!-- Header / Brand -->
+<nav class="w-full bg-surface/95 backdrop-blur-sm border-b border-surface-variant px-container-margin-desktop h-16 flex items-center justify-between sticky top-0 z-50"><!-- Left: Logo -->
+  <div class="flex items-center gap-2">
+    <span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">favorite</span>
+    <span class="font-headline-md font-bold text-primary tracking-tighter">LifeLink</span>
+  </div>
+
+  <!-- Center: Navigation Links -->
+  <div class="hidden lg:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+    <a href="hospital_dashboard.html" class="font-label-bold text-label-md text-on-surface-variant hover:text-primary transition-colors">Overview</a>
+    <a href="donor_match_results.html" class="font-label-bold text-label-md text-primary border-b-2 border-primary pb-1 transition-colors">Live Requests</a>
+    <a href="hospital_requests.html" class="font-label-bold text-label-md text-on-surface-variant hover:text-primary transition-colors">Outreach</a>
+    <a href="donor_database.html" class="font-label-bold text-label-md text-on-surface-variant hover:text-primary transition-colors">Donor Database</a>
+    <a href="hospital_analytics.html" class="font-label-bold text-label-md text-on-surface-variant hover:text-primary transition-colors">Analytics</a>
+    <a href="hospital_settings.html" class="font-label-bold text-label-md text-on-surface-variant hover:text-primary transition-colors">Settings</a>
+  </div>
+
+  <!-- Right: Hospital Identity & Action -->
+  <div class="flex items-center gap-4">
+    <div class="flex items-center gap-3 border-r border-surface-variant pr-4">
+      <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-xs">
+        CH
+      </div>
+      <div class="hidden md:block">
+        <p class="font-label-bold text-label-md text-on-surface leading-none">City Central Hospital</p>
+        <p class="font-body-sm text-[10px] text-on-surface-variant/70 uppercase tracking-tighter">Verified Medical Center</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button class="bg-primary text-on-primary font-label-bold text-label-md px-4 py-2 rounded-lg shadow-md hover:opacity-80 transition-colors flex items-center gap-2" onclick="window.location.href='create_request.html'">
+        <span class="material-symbols-outlined text-sm">add</span>
+        <span class="">Create Request</span>
+      </button>
+      <button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+        <span class="material-symbols-outlined">notifications</span>
+      </button>
+      <button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+        <span class="material-symbols-outlined">settings</span>
+      </button>
+    </div>
+  </div></nav>
+<!-- Main Content Canvas -->
+<main class="w-full max-w-3xl bg-surface-container-lowest border border-surface-variant rounded-2xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] overflow-hidden transition-all duration-300 relative mx-auto mt-12" id="main-container">
+<!-- FORM SECTION -->
+<div class="p-6 md:p-10 fade-in" id="signup-form">
+<h2 class="font-headline-md text-headline-md mb-stack-lg border-b border-surface-variant pb-4">Donor Registration</h2>
+<form class="space-y-stack-lg" onsubmit="event.preventDefault(); showLoadingState();">
+<!-- Personal Info Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Full Name -->
+<div class="flex flex-col gap-1">
+<label class="font-label-bold text-label-bold text-on-surface" for="fullName">Full Name</label>
+<input class="w-full rounded-lg border-surface-variant bg-surface px-4 py-3 font-body-md text-body-md focus:border-tertiary focus:ring-2 focus:ring-tertiary/20 outline-none transition-all placeholder:text-on-surface-variant/50" id="fullName" placeholder="Jane Doe" required="" type="text">
+</div>
+<!-- Phone Number -->
+<div class="flex flex-col gap-1">
+<label class="font-label-bold text-label-bold text-on-surface" for="phone">Phone Number</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant/70">phone</span>
+<input class="w-full rounded-lg border-surface-variant bg-surface pl-10 pr-4 py-3 font-body-md text-body-md focus:border-tertiary focus:ring-2 focus:ring-tertiary/20 outline-none transition-all placeholder:text-on-surface-variant/50" id="phone" placeholder="+1 (555) 000-0000" required="" type="tel">
+</div>
+</div>
+</div>
+<!-- Medical & Location Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Blood Group -->
+<div class="flex flex-col gap-1">
+<label class="font-label-bold text-label-bold text-on-surface" for="bloodGroup">Blood Group</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-lg border-surface-variant bg-surface px-4 py-3 font-body-md text-body-md focus:border-tertiary focus:ring-2 focus:ring-tertiary/20 outline-none transition-all" id="bloodGroup" required="">
+<option disabled="" selected="" value="">Select type</option>
+<option value="A+">A+</option>
+<option value="A-">A-</option>
+<option value="B+">B+</option>
+<option value="B-">B-</option>
+<option value="AB+">AB+</option>
+<option value="AB-">AB-</option>
+<option value="O+">O+</option>
+<option value="O-">O-</option>
+<option value="Unknown">Don't know</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Location (Auto-detect simulated) -->
+<div class="flex flex-col gap-1">
+<label class="font-label-bold text-label-bold text-on-surface" for="location">Current Location</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-tertiary" style="font-variation-settings: 'FILL' 1;">my_location</span>
+<input class="w-full rounded-lg border-surface-variant bg-surface-container-low pl-10 pr-4 py-3 font-body-md text-body-md text-on-surface-variant cursor-not-allowed outline-none" id="location" readonly="" type="text" value="Seattle, WA (Auto-detected)">
+</div>
+</div>
+</div>
+<!-- Eligibility Toggles -->
+<div class="bg-surface rounded-xl p-stack-md border border-surface-variant space-y-4 mt-stack-lg">
+<h3 class="font-label-bold text-label-bold text-on-surface uppercase tracking-wider mb-2">Eligibility Screening</h3>
+<!-- Toggle 1 -->
+<div class="flex items-center justify-between gap-4">
+<label class="font-body-md text-body-md text-on-surface cursor-pointer flex-1" for="toggle1">Have you donated blood in the last 3 months?</label>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-surface-variant appearance-none cursor-pointer transition-all duration-300 z-10 top-0 left-0" id="toggle1" name="toggle1" type="checkbox">
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-variant cursor-pointer transition-all duration-300" for="toggle1"></label>
+</div>
+</div>
+<!-- Toggle 2 -->
+<div class="flex items-center justify-between gap-4">
+<label class="font-body-md text-body-md text-on-surface cursor-pointer flex-1" for="toggle2">Are you currently feeling healthy and well?</label>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-surface-variant appearance-none cursor-pointer transition-all duration-300 z-10 top-0 left-0" id="toggle2" name="toggle2" type="checkbox">
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-variant cursor-pointer transition-all duration-300" for="toggle2"></label>
+</div>
+</div>
+<!-- Toggle 3 -->
+<div class="flex items-center justify-between gap-4">
+<label class="font-body-md text-body-md text-on-surface cursor-pointer flex-1" for="toggle3">Have you had any major surgeries in the past 6 months?</label>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-surface-variant appearance-none cursor-pointer transition-all duration-300 z-10 top-0 left-0" id="toggle3" name="toggle3" type="checkbox">
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-variant cursor-pointer transition-all duration-300" for="toggle3"></label>
+</div>
+</div>
+</div>
+<!-- Submit Action -->
+<div class="pt-4">
+<button class="w-full bg-primary-container text-on-primary-container font-label-bold text-label-md py-4 px-6 rounded-xl shadow-md hover:bg-primary transition-colors flex items-center justify-center gap-2 group" type="submit">
+<span class="">Register as Donor</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<p class="text-center font-body-sm text-body-sm text-on-surface-variant mt-4">
+                        By registering, you agree to our <a class="text-secondary hover:underline" href="#">Privacy Policy</a> and <a class="text-secondary hover:underline" href="#">Donor Guidelines</a>.
+                    </p>
+</div>
+</form>
+</div>
+<!-- SUCCESS / LOADING STATE (Hidden by default) -->
+<div class="hidden absolute inset-0 bg-surface-container-lowest flex flex-col items-center justify-center p-10 z-10" id="loading-state">
+<div class="relative w-24 h-24 mb-6 flex items-center justify-center pulse-ring rounded-full bg-primary-container/10">
+<span class="material-symbols-outlined text-primary text-5xl" style="font-variation-settings: 'FILL' 1;">sync</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 text-center">You're being matched...</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-center max-w-sm">
+                We are securing your profile and checking for immediate critical requests in your vicinity.
+            </p>
+<!-- Simulated progress steps -->
+<div class="w-full max-w-xs mt-8 space-y-4">
+<div class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md">Profile verified</span>
+</div>
+<div class="flex items-center gap-3 text-secondary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md">Location confirmed</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant opacity-70 animate-pulse">
+<span class="material-symbols-outlined text-sm">hourglass_empty</span>
+<span class="font-label-md text-label-md">Scanning network...</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Component (Shared) -->
+<footer class="w-full py-stack-lg px-container-margin-desktop flex flex-col md:flex-row justify-between items-center gap-gutter bg-inverse-surface dark:bg-surface-container-lowest mt-12 w-full max-w-3xl rounded-xl">
+<div class="text-surface dark:text-primary font-bold font-display-lg text-headline-lg-mobile md:text-headline-lg">
+            LifeLink
+        </div>
+<div class="flex flex-wrap justify-center gap-4">
+<a class="font-label-bold text-label-bold text-surface-variant/80 hover:text-surface hover:opacity-80 transition-opacity" href="#">Privacy Policy</a>
+<a class="font-label-bold text-label-bold text-surface-variant/80 hover:text-surface hover:opacity-80 transition-opacity" href="#">Terms of Service</a>
+<a class="font-label-bold text-label-bold text-surface-variant/80 hover:text-surface hover:opacity-80 transition-opacity" href="#">Hospital Partners</a>
+<a class="font-label-bold text-label-bold text-surface-variant/80 hover:text-surface hover:opacity-80 transition-opacity" href="#">Donor Guidelines</a>
+</div>
+<div class="font-body-sm text-body-sm text-surface dark:text-on-surface text-center md:text-right text-surface-variant/60">
+            © 2024 LifeLink Emergency Systems. Medical Authority Verified.
+        </div>
+</footer>
+<script>
+        // Simple JS to handle the transition from Form to Loading State
+        function showLoadingState() {
+            const formSection = document.getElementById('signup-form');
+            const loadingState = document.getElementById('loading-state');
+            
+            // Fade out form
+            formSection.style.opacity = '0';
+            formSection.style.transition = 'opacity 0.3s ease';
+            
+            setTimeout(() => {
+                formSection.classList.add('hidden');
+                loadingState.classList.remove('hidden');
+                loadingState.classList.add('fade-in');
+            }, 300);
+        }
+        
+        // Custom toggle logic for visual consistency with Tailwind constraints
+        document.querySelectorAll('.toggle-checkbox').forEach(toggle => {
+            toggle.addEventListener('change', (e) => {
+                // The CSS handles the visual movement and color change
+                // This is just a placeholder if complex logic was needed on toggle
+            });
+        });
+    </script>
+
+
+
+
+</body></html>

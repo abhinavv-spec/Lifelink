@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LifeLink - Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed": "#001e2f",
+                      "on-primary-fixed-variant": "#920023",
+                      "surface-bright": "#f8f9fa",
+                      "surface-container": "#edeeef",
+                      "surface": "#f8f9fa",
+                      "on-primary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "on-secondary-fixed-variant": "#184b69",
+                      "error-container": "#ffdad6",
+                      "tertiary": "#005278",
+                      "surface-tint": "#ba1434",
+                      "on-surface-variant": "#5b4040",
+                      "inverse-surface": "#2e3132",
+                      "surface-container-highest": "#e1e3e4",
+                      "primary": "#9e0027",
+                      "secondary-fixed": "#c9e6ff",
+                      "on-tertiary": "#ffffff",
+                      "on-background": "#191c1d",
+                      "error": "#ba1a1a",
+                      "primary-fixed": "#ffdad9",
+                      "on-secondary-container": "#31607f",
+                      "primary-container": "#c41e3a",
+                      "on-primary-fixed": "#40000a",
+                      "on-surface": "#191c1d",
+                      "on-tertiary-fixed": "#001e2f",
+                      "inverse-primary": "#ffb3b4",
+                      "surface-container-low": "#f3f4f5",
+                      "on-tertiary-container": "#cae6ff",
+                      "surface-variant": "#e1e3e4",
+                      "on-tertiary-fixed-variant": "#004b6f",
+                      "secondary": "#356382",
+                      "background": "#f8f9fa",
+                      "secondary-container": "#acdafe",
+                      "on-secondary": "#ffffff",
+                      "surface-dim": "#d9dadb",
+                      "tertiary-fixed": "#cae6ff",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-container": "#006b9c",
+                      "on-error-container": "#93000a",
+                      "surface-container-high": "#e7e8e9",
+                      "tertiary-fixed-dim": "#8ccdff",
+                      "outline": "#8f6f6f",
+                      "inverse-on-surface": "#f0f1f2",
+                      "secondary-fixed-dim": "#9fccef",
+                      "primary-fixed-dim": "#ffb3b4",
+                      "outline-variant": "#e3bebd",
+                      "on-primary-container": "#ffdada"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "stack-md": "16px",
+                      "stack-sm": "8px",
+                      "base": "8px",
+                      "container-margin-mobile": "20px",
+                      "container-margin-desktop": "40px",
+                      "stack-lg": "32px"
+              },
+              "fontFamily": {
+                      "display-lg": [
+                              "Montserrat"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Montserrat"
+                      ],
+                      "headline-lg": [
+                              "Montserrat"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Montserrat"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-bold": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .custom-shadow-card {
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
+        }
+        .custom-shadow-hover:hover {
+            box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+        .form-input-focus:focus {
+            outline: 2px solid #005278; /* Using tertiary color for focus as teal substitute */
+            outline-offset: 1px;
+            border-color: transparent;
+        }
+      </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen font-body-md text-body-md">
+<!-- SideNavBar -->
+<nav class="h-screen w-64 fixed left-0 top-0 border-r border-outline-variant bg-surface-container-lowest shadow-sm flex flex-col py-gutter z-50">
+<div class="px-4 mb-8">
+<h1 class="font-display-lg text-display-lg text-primary tracking-tight">LifeLink</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Medical Command Center</p>
+</div>
+<div class="flex-1 overflow-y-auto font-label-md text-label-md">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+                Overview
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">emergency</span>
+                Live Requests
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">campaign</span>
+                Outreach
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">database</span>
+                Donor Database
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">monitoring</span>
+                Analytics
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary font-bold border-r-4 border-primary bg-surface-container active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+                Settings
+            </a>
+</div>
+<div class="px-4 mt-auto pt-4 border-t border-outline-variant">
+<div class="flex items-center gap-3 mb-4">
+<img class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A professional headshot of a female hospital administrator with dark hair, wearing a white lab coat over a light blue shirt. The background is a blurred modern hospital corridor with soft, cool lighting. The image conveys authority, stability, and medical professionalism. 16px corner radius." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbZNEobI14kQ6yw4ElzBrVUTiJjtlIxOBra1WKIGnfpHRYTuiX1f3BZnQtMgO1Bld3-v6igHBy_9G9I7-3-6j-2viE0RHlmv_iIkOHVwuvXl5zTc8WZCVz5rIBd97Q6s5tMpvUqPuDyHBUsSAuhY2YzBxMToLMlR7t_Ggx3BuQVwRcET0Kz0ROdJBDYnaOIcg3UOE-3xRtI10Dno6YFI8jFgj0qvvVdWVVd9YjfuVoORrDh_sj33wR"/>
+<div>
+<p class="font-label-bold text-label-bold text-on-surface">Hospital Administrator</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Profile</p>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-primary font-label-md text-label-md py-2 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-primary transition-colors duration-200 active:scale-95">
+<span class="material-symbols-outlined">bloodtype</span>
+                Request Emergency Blood
+            </button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-1 p-container-margin-desktop overflow-y-auto">
+<header class="mb-stack-lg flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Settings</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Manage your hospital profile, preferences, and team access.</p>
+</div>
+<button class="bg-[#1B4D6B] text-on-primary font-label-md text-label-md py-2 px-4 rounded-lg hover:bg-tertiary transition-colors duration-200 custom-shadow-card">
+                Save All Changes
+            </button>
+</header>
+<div class="grid grid-cols-12 gap-gutter max-w-7xl">
+<!-- Organization Profile Section -->
+<section class="col-span-12 xl:col-span-8 space-y-stack-md">
+<div class="bg-surface-container-lowest rounded-xl border border-surface-variant p-stack-md custom-shadow-card">
+<div class="flex items-center gap-3 mb-6 pb-4 border-b border-surface-variant">
+<span class="material-symbols-outlined text-[#1B4D6B]">domain</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Organization Profile</h3>
+</div>
+<div class="grid grid-cols-2 gap-stack-md">
+<div class="col-span-2">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-base">Hospital Name</label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md text-on-surface form-input-focus transition-all duration-200" type="text" value="City General Hospital"/>
+</div>
+<div class="col-span-1">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-base">Registration ID</label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md text-on-surface form-input-focus transition-all duration-200" type="text" value="MED-98765-CGH"/>
+</div>
+<div class="col-span-1">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-base">Primary Contact Number</label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md text-on-surface form-input-focus transition-all duration-200" type="tel" value="+1 (555) 019-2837"/>
+</div>
+<div class="col-span-2">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-base">Facility Address</label>
+<input class="w-full bg-surface-bright border border-outline-variant rounded-lg px-3 py-2 font-body-md text-body-md text-on-surface form-input-focus transition-all duration-200" type="text" value="100 Medical Center Blvd, Metropolis, NY 10001"/>
+</div>
+</div>
+</div>
+<!-- Team Management -->
+<div class="bg-surface-container-lowest rounded-xl border border-surface-variant p-stack-md custom-shadow-card">
+<div class="flex items-center justify-between mb-6 pb-4 border-b border-surface-variant">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#1B4D6B]">group</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Team Management</h3>
+</div>
+<button class="text-[#1B4D6B] font-label-md text-label-md flex items-center gap-1 hover:text-tertiary transition-colors">
+<span class="material-symbols-outlined text-sm">add</span> Add Member
+                        </button>
+</div>
+<div class="space-y-3">
+<!-- Team Member 1 -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-surface-variant bg-surface-bright hover:bg-surface-container-low transition-colors custom-shadow-hover duration-300">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-bold text-label-bold">
+                                    DR
+                                </div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Dr. Sarah Jenkins</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Lead Hematologist</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="px-2 py-1 bg-surface-container-high text-on-surface-variant rounded-full font-label-bold text-[10px] tracking-wider uppercase">Admin</span>
+<button class="text-outline hover:text-error transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</div>
+<!-- Team Member 2 -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-surface-variant bg-surface-bright hover:bg-surface-container-low transition-colors custom-shadow-hover duration-300">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-label-bold text-label-bold">
+                                    MK
+                                </div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Michael Kwan</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">ER Coordinator</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="px-2 py-1 bg-surface-container text-on-surface-variant rounded-full font-label-bold text-[10px] tracking-wider uppercase">Staff</span>
+<button class="text-outline hover:text-error transition-colors"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Sidebar Section (Notifications) -->
+<section class="col-span-12 xl:col-span-4 space-y-stack-md">
+<div class="bg-surface-container-lowest rounded-xl border border-surface-variant p-stack-md custom-shadow-card">
+<div class="flex items-center gap-3 mb-6 pb-4 border-b border-surface-variant">
+<span class="material-symbols-outlined text-[#C41E3A]">notifications_active</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Alert Preferences</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">Configure how you receive urgent blood request matches and donor updates.</p>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface">Urgent Requests (Email)</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Immediate notification for matches.</p>
+</div>
+<!-- Custom Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant rounded-full peer peer-checked:bg-[#1B4D6B] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface">SMS Alerts</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Text messages for critical shortages.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant rounded-full peer peer-checked:bg-[#1B4D6B] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="font-label-md text-label-md text-on-surface">Weekly Digest</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Summary of outreach efforts.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant rounded-full peer peer-checked:bg-[#1B4D6B] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Danger Zone -->
+<div class="bg-error-container rounded-xl border border-[#ffb3b4] p-stack-md mt-stack-lg custom-shadow-card">
+<h3 class="font-headline-md text-headline-md text-[#93000a] mb-2">Danger Zone</h3>
+<p class="font-body-sm text-body-sm text-[#ba1a1a] mb-4">Permanently deactivate this hospital account and remove all data.</p>
+<button class="w-full bg-transparent border border-[#ba1a1a] text-[#93000a] font-label-md text-label-md py-2 px-4 rounded-lg hover:bg-[#ffdad6] transition-colors duration-200">
+                        Deactivate Account
+                    </button>
+</div>
+</section>
+</div>
+</main>
+</body></html>
