@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Blood Bank Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#c41e3a",
+                        "primary-container": "#c41e3a", // Changed for sidebar selected state
+                        "on-primary-container": "#ffffff",
+                        "on-primary": "#ffffff",
+                        surface: "#f4f4f5", // Light gray background like the image
+                        "on-surface": "#191c1d",
+                        "surface-variant": "#e1e3e4",
+                        "on-surface-variant": "#444748",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        secondary: "#356382",
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f4f4f5; }
+        .sidebar-item.active {
+            background-color: #c41e3a;
+            color: white;
+            font-weight: 700;
+        }
+        .sidebar-item.active .material-symbols-outlined {
+            color: white;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex font-['Inter'] text-on-surface">
+
+    <!-- Sidebar (Matches User's Uploaded Image Layout) -->
+    <aside class="w-64 bg-[#f4f4f5] border-r border-surface-variant flex flex-col fixed inset-y-0 left-0 z-50 p-4 shadow-sm">
+        
+        <!-- Profile Header -->
+        <div class="flex items-center gap-3 mb-8 px-2 mt-4 cursor-pointer" onclick="logout()" title="Click to logout">
+            <div class="w-12 h-12 rounded-full bg-[#c41e3a] text-white flex items-center justify-center font-bold text-lg shadow-sm" id="bb-avatar">BB</div>
+            <div class="flex-1 overflow-hidden">
+                <p class="font-bold text-sm text-on-surface font-['Montserrat'] truncate" id="bb-name">Loading...</p>
+                <p class="text-xs text-on-surface-variant truncate">Verified Blood Bank</p>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="flex flex-col gap-2 flex-grow">
+            <button onclick="switchTab('overview')" id="tab-overview" class="sidebar-item active flex items-center gap-3 px-4 py-3 text-[#4a3b3c] hover:bg-surface-variant rounded-lg transition-colors text-left text-sm font-medium">
+                <span class="material-symbols-outlined text-[#4a3b3c]">dashboard</span> Overview
+            </button>
+            <button onclick="window.location.href='/emergency_response.html'" id="tab-requests" class="sidebar-item flex items-center gap-3 px-4 py-3 text-[#4a3b3c] hover:bg-surface-variant rounded-lg transition-colors text-left text-sm font-medium">
+                <span class="material-symbols-outlined text-[#4a3b3c]">emergency</span> Live Requests
+            </button>
+            <button onclick="switchTab('settings')" id="tab-settings" class="sidebar-item flex items-center gap-3 px-4 py-3 text-[#4a3b3c] hover:bg-surface-variant rounded-lg transition-colors text-left text-sm font-medium">
+                <span class="material-symbols-outlined text-[#4a3b3c]">settings</span> Settings
+            </button>
+        </nav>
+
+        <!-- Bottom Action Button -->
+        <button onclick="window.location.href='/emergency'" class="w-full bg-[#9e0027] text-white py-3 rounded-lg font-bold mt-auto hover:opacity-90 transition-opacity shadow-md text-sm">
+            Send Broadcast
+        </button>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow ml-64 p-8 max-w-7xl mx-auto w-full">
+        
+        <!-- SECTION: OVERVIEW -->
+        <section id="section-overview" class="space-y-6 block">
+            <div class="flex justify-between items-end mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold font-['Montserrat'] text-on-surface">Overview</h2>
+                    <p class="text-sm text-on-surface-variant mt-1">Live status of all blood groups. <span class="font-bold text-[#c41e3a]">Warning limits trigger at < 10 units.</span></p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="inventory-grid">
+                <!-- Cards injected here via JS -->
+            </div>
+        </section>
+
+        <!-- SECTION: LIVE REQUESTS -->
+        <section id="section-requests" class="space-y-6 hidden">
+            <h2 class="text-2xl font-bold font-['Montserrat'] text-on-surface mb-2">Live Requests</h2>
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-variant p-6">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="text-xs text-on-surface-variant uppercase tracking-wider border-b border-surface-variant">
+                                <th class="pb-3 pr-4">Hospital</th>
+                                <th class="pb-3 pr-4">Blood Type</th>
+                                <th class="pb-3 pr-4">Units Needed</th>
+                                <th class="pb-3 pr-4">Urgency</th>
+                                <th class="pb-3 pr-4">Date</th>
+                                <th class="pb-3">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requests-tbody">
+                            <tr>
+                                <td colspan="6" class="py-4 text-center text-sm text-on-surface-variant">Loading requests...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: SETTINGS -->
+        <section id="section-settings" class="space-y-6 hidden">
+            <h2 class="text-2xl font-bold font-['Montserrat'] text-on-surface mb-2">Settings</h2>
+            <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-variant p-6 max-w-2xl">
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-xs font-bold text-on-surface-variant uppercase mb-2">Blood Bank Name</label>
+                        <input type="text" id="setting-name" class="w-full p-3 bg-surface-container-low border border-surface-variant rounded-lg text-sm" disabled>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-on-surface-variant uppercase mb-2">Alert Phone Number</label>
+                        <input type="text" class="w-full p-3 bg-surface border border-surface-variant rounded-lg text-sm focus:border-primary outline-none" placeholder="+1 555-0000" value="+1 (555) 123-4567">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-on-surface-variant uppercase mb-2">Auto-Broadcast Threshold</label>
+                        <input type="number" class="w-full p-3 bg-surface border border-surface-variant rounded-lg text-sm focus:border-primary outline-none" value="10">
+                    </div>
+                    <div class="pt-2">
+                        <button class="bg-[#9e0027] text-white font-bold py-3 px-6 rounded-lg hover:opacity-90 transition text-sm">Save Preferences</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            // Hide all sections
+            document.getElementById('section-overview').classList.add('hidden');
+            document.getElementById('section-requests').classList.add('hidden');
+            document.getElementById('section-settings').classList.add('hidden');
+            
+            // Remove active state from all tabs
+            document.getElementById('tab-overview').classList.remove('active');
+            document.getElementById('tab-requests').classList.remove('active');
+            document.getElementById('tab-settings').classList.remove('active');
+
+            // Show selected section and activate tab
+            document.getElementById('section-' + tabId).classList.remove('hidden');
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        function logout() {
+            if(confirm('Are you sure you want to log out?')) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = '/bloodbank-login';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const token = localStorage.getItem('token');
+            const userStr = localStorage.getItem('user');
+            
+            if (!token || !userStr) {
+                window.location.href = '/bloodbank-login';
+                return;
+            }
+            
+            const user = JSON.parse(userStr);
+            if(user.role !== 'BLOOD_BANK') {
+                alert("Unauthorized. Only Blood Banks can access this portal.");
+                logout();
+                return;
+            }
+
+            document.getElementById('bb-name').innerText = user.name;
+            document.getElementById('setting-name').value = user.name;
+            const initials = user.name.split(' ').map(w => w[0]).join('').substring(0,2).toUpperCase();
+            document.getElementById('bb-avatar').innerText = initials;
+
+            // Fetch Inventory for Overview
+            try {
+                const invRes = await fetch('/api/inventory', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const invData = await invRes.json();
+                
+                const grid = document.getElementById('inventory-grid');
+                grid.innerHTML = ''; // clear
+
+                if (invData.success && invData.data.length > 0) {
+                    const allTypes = ['A_POS','A_NEG','B_POS','B_NEG','O_POS','O_NEG','AB_POS','AB_NEG'];
+                    const invMap = {};
+                    invData.data.forEach(item => {
+                        invMap[item.bloodType] = item.units;
+                    });
+
+                    allTypes.forEach(t => {
+                        const count = invMap[t] || 0;
+                        const displayType = t.replace('_POS', '+').replace('_NEG', '-');
+                        
+                        let cardClass = "bg-surface-container-lowest border-surface-variant";
+                        let countClass = "text-on-surface";
+                        let warningHtml = "";
+                        let buttonHtml = `<div class="mt-4"><button class="text-xs font-bold text-secondary hover:underline bg-secondary/10 px-3 py-1.5 rounded" onclick="updateInventory('${t}')">Update Count</button></div>`;
+
+                        if (count < 10) {
+                            cardClass = "bg-[#fff0f1] border-primary";
+                            countClass = "text-[#c41e3a] font-bold";
+                            warningHtml = `<p class="text-xs font-bold text-[#c41e3a] mb-2 uppercase tracking-wide flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">warning</span> Low Stock</p>`;
+                            buttonHtml = `
+                                <div class="mt-3 flex gap-2">
+                                    <button class="flex-1 bg-[#c41e3a] text-white text-xs font-bold py-2 rounded hover:bg-opacity-90 shadow-sm flex items-center justify-center gap-1" onclick="window.location.href='/emergency'">
+                                        <span class="material-symbols-outlined text-[14px]">campaign</span> Broadcast
+                                    </button>
+                                    <button class="bg-surface-variant text-on-surface-variant text-xs font-bold px-2 py-2 rounded hover:bg-surface-container-low" onclick="updateInventory('${t}')" title="Update Count">
+                                        <span class="material-symbols-outlined text-[14px]">edit</span>
+                                    </button>
+                                </div>
+                            `;
+                        }
+
+                        grid.innerHTML += `
+                            <div class="rounded-xl border p-5 shadow-sm \${cardClass} flex flex-col justify-between">
+                                <div>
+                                    \${warningHtml}
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-3xl font-['Montserrat'] font-bold text-on-surface">\${displayType}</span>
+                                        <span class="text-3xl \${countClass}">\${count}</span>
+                                    </div>
+                                    <p class="text-xs text-on-surface-variant">Units Remaining</p>
+                                </div>
+                                \${buttonHtml}
+                            </div>
+                        `;
+                    });
+                }
+            } catch (e) {
+                console.error(e);
+            }
+
+            // Fetch Live Requests
+            try {
+                const reqRes = await fetch('/api/requests', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const reqData = await reqRes.json();
+                
+                const tbody = document.getElementById('requests-tbody');
+                
+                if (reqData.success) {
+                    if (reqData.data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="6" class="py-6 text-center text-sm text-on-surface-variant">No active requests found in the network.</td></tr>';
+                    } else {
+                        tbody.innerHTML = '';
+                        reqData.data.forEach(req => {
+                            const bt = req.bloodType.replace('_POS','+').replace('_NEG','-');
+                            let urgClass = req.urgencyLevel === 'CRITICAL' ? 'text-[#c41e3a] font-bold' : 'text-on-surface-variant font-medium';
+                            let dateStr = new Date(req.createdAt).toLocaleDateString();
+                            
+                            tbody.innerHTML += `
+                                <tr class="border-b border-surface-variant hover:bg-surface-container-lowest transition-colors">
+                                    <td class="py-4 pr-4 font-bold text-sm text-on-surface">\${req.hospital.name}</td>
+                                    <td class="py-4 pr-4"><span class="bg-surface-container-low px-3 py-1.5 rounded text-xs font-bold border border-surface-variant">\${bt}</span></td>
+                                    <td class="py-4 pr-4 text-sm font-medium">\${req.unitsNeeded} units</td>
+                                    <td class="py-4 pr-4 text-xs \${urgClass}">\${req.urgencyLevel}</td>
+                                    <td class="py-4 pr-4 text-xs text-on-surface-variant">\${dateStr}</td>
+                                    <td class="py-4">
+                                        <button class="bg-[#356382] text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-opacity-90 shadow-sm transition">Review</button>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        });
+
+        // Helper to manually update count if they just want to type a number
+        window.updateInventory = async function(bloodType) {
+            const newUnits = prompt("Enter new total units for " + bloodType.replace('_POS','+').replace('_NEG','-') + ":");
+            if (newUnits !== null && !isNaN(newUnits) && newUnits !== "") {
+                const token = localStorage.getItem('token');
+                await fetch('/api/inventory/' + bloodType, {
+                    method: 'PUT',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ units: parseInt(new hoistedUnits) || parseInt(newUnits) })
+                });
+                window.location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

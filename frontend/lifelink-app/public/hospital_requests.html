@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>LifeLink - Outreach & Emergency Dispatch</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  
+  <!-- Google Fonts & Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <!-- Leaflet Real Map CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#f8f9fa",
+            "primary": "#9e0027",
+            "primary-container": "#c41e3a",
+            "on-primary": "#ffffff",
+            "secondary": "#356382",
+            "secondary-container": "#acdafe",
+            "on-secondary": "#ffffff",
+            "surface-variant": "#e1e3e4",
+            "on-surface": "#191c1d",
+            "on-surface-variant": "#5b4040",
+            "outline-variant": "#e3bebd"
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
+    .hospital-beacon {
+      background: #9e0027;
+      color: white;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(158, 0, 39, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 15px;
+      animation: pulse-hospital 2s infinite ease-in-out;
+    }
+    @keyframes pulse-hospital {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(158, 0, 39, 0.9); }
+      50% { transform: scale(1.15); box-shadow: 0 0 25px rgba(196, 30, 58, 1); }
+    }
+    .donor-map-badge {
+      border: 2px solid white;
+      border-radius: 18px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      color: white;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+
+  <!-- Desktop Navigation Bar -->
+  <header class="hidden md:flex items-center justify-between px-8 h-16 bg-white border-b border-surface-variant sticky top-0 z-50 shadow-sm">
+    <a href="/emergency_response.html" class="font-bold text-xl text-primary flex items-center gap-2" style="font-family: 'Montserrat', sans-serif;">
+      <span class="material-symbols-outlined text-2xl text-primary" style="font-variation-settings: 'FILL' 1;">favorite</span>
+      <span>LifeLink</span>
+    </a>
+    <nav class="flex items-center gap-8 absolute left-1/2 -translate-x-1/2 text-sm font-semibold">
+      <a href="hospital_dashboard.html" class="text-on-surface-variant hover:text-primary transition-colors">Overview</a>
+      <a href="/emergency_response.html" class="text-on-surface-variant hover:text-primary transition-colors">Live Requests</a>
+      <a href="hospital_requests.html" class="text-primary border-b-2 border-primary pb-1">Outreach & WhatsApp</a>
+      <a href="donor_database.html" class="text-on-surface-variant hover:text-primary transition-colors">Donor Database</a>
+      <a href="hospital_analytics.html" class="text-on-surface-variant hover:text-primary transition-colors">Analytics</a>
+      <a href="hospital_settings.html" class="text-on-surface-variant hover:text-primary transition-colors">Settings</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-3 border-r border-surface-variant pr-4">
+        <div class="w-9 h-9 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary font-bold text-xs">CH</div>
+        <div class="hidden xl:flex flex-col">
+          <span class="font-bold text-xs text-on-surface">Jubilee Mission Medical College</span>
+          <span class="text-[10px] text-primary font-bold uppercase tracking-wider">Thrissur, Kerala</span>
+        </div>
+      </div>
+      <button onclick="window.location.href='create_request.html'" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-primary-container transition-colors shadow">
+        Create Request
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Canvas -->
+  <main class="max-w-7xl mx-auto px-4 md:px-8 py-6 space-y-6">
+
+    <!-- Top Emergency Case Bar -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-surface-variant shadow-sm">
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 rounded-2xl bg-primary text-white flex flex-col items-center justify-center font-black shadow border-2 border-rose-200">
+          <span class="text-xl leading-none">O-</span>
+          <span class="text-[9px] font-extrabold uppercase mt-0.5">2 Units</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-rose-100 text-rose-800 border border-rose-300">
+              🚨 CRITICAL SURGERY IN PROGRESS
+            </span>
+            <span class="text-xs text-on-surface-variant font-mono">REQ-8992</span>
+          </div>
+          <h1 class="text-xl md:text-2xl font-bold text-on-surface mt-1" style="font-family: 'Montserrat', sans-serif;">
+            Emergency Blood Dispatch & Community Outreach
+          </h1>
+          <p class="text-xs text-on-surface-variant flex items-center gap-1.5 mt-0.5">
+            <span class="material-symbols-outlined text-[15px] text-primary">location_on</span>
+            <span>Venue Destination: <b>Jubilee Mission Hospital, East Fort, Thrissur (10.5246° N, 76.2241° E)</b></span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="broadcastToAllClubsWhatsApp()" class="bg-[#25D366] hover:bg-emerald-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow flex items-center gap-2 transition">
+          <span class="material-symbols-outlined text-[18px]">chat</span>
+          <span>Broadcast to All Partner Clubs</span>
+        </button>
+        <a href="emergency_response.html" target="_blank" class="bg-primary text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow flex items-center gap-2 transition hover:bg-opacity-90">
+          <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+          <span>Open Public Donor Link</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- PUBLIC LINK SHARING WIDGET -->
+    <div class="bg-gradient-to-r from-red-50 via-rose-50 to-white border border-rose-200 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-xl">share</span>
+        </div>
+        <div>
+          <span class="text-xs font-bold text-primary uppercase tracking-wider block">Public Responsive Link (For WhatsApp / Social Media)</span>
+          <span class="text-xs font-mono text-slate-700 bg-white px-2 py-0.5 rounded border border-rose-200 block md:inline-block mt-0.5" id="publicLinkText">
+            https://lifelink.org/emergency_response.html?req=REQ-8992&bg=O-&venue=Thrissur
+          </span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 w-full md:w-auto">
+        <button onclick="copyPublicLink()" class="flex-1 md:flex-initial bg-white hover:bg-slate-50 text-slate-800 font-bold text-xs px-4 py-2 rounded-xl border border-slate-300 shadow-sm flex items-center justify-center gap-1.5 transition">
+          <span class="material-symbols-outlined text-[16px]">content_copy</span>
+          <span id="copyBtnText">Copy Link</span>
+        </button>
+        <button onclick="sharePublicLinkWhatsApp()" class="flex-1 md:flex-initial bg-[#25D366] hover:bg-emerald-600 text-white font-bold text-xs px-4 py-2 rounded-xl shadow flex items-center justify-center gap-1.5 transition">
+          <span class="material-symbols-outlined text-[16px]">send</span>
+          <span>Share WhatsApp</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN GRID: LIVE REAL MAP & ALLOCATION (LEFT) + PREDEFINED CLUBS (RIGHT) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- LEFT 8 COLS: REAL STREET MAP & MULTI-DONOR ALLOCATION -->
+      <div class="lg:col-span-8 space-y-6">
+
+        <!-- REAL MAP OF INCOMING DONORS -->
+        <div class="bg-white rounded-2xl p-4 border border-surface-variant shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+              <h2 class="font-bold text-base text-on-surface" style="font-family: 'Montserrat', sans-serif;">
+                Live Proximity Radar & Routes to Hospital
+              </h2>
+            </div>
+            
+          </div>
+
+          <!-- Leaflet Real Street Map -->
+          <div id="liveDispatchMap" class="w-full h-[400px] rounded-xl border border-surface-variant relative z-10"></div>
+          
+          <div class="flex flex-wrap items-center justify-between text-xs text-slate-500 pt-1">
+            <span>💡 <b>Tip:</b> Click anywhere on the map to add a donor at that exact town.</span>
+            <div class="flex items-center gap-4">
+              <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-primary"></span> Hospital (Destination)</span>
+              <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-600"></span> Patient Donor</span>
+              <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-sky-600"></span> Blood Bank Buffer</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MULTI-DONOR ALLOCATION FEED: PATIENT VS BLOOD BANK -->
+        <div class="bg-white rounded-2xl p-5 border border-surface-variant shadow-sm space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-surface-variant pb-3">
+            <div>
+              <h3 class="font-bold text-base text-on-surface" style="font-family: 'Montserrat', sans-serif;">
+                Multi-Donor Intake & Allocation Board
+              </h3>
+              <p class="text-xs text-on-surface-variant">
+                Fastest donors allocated to <b>Patient Transfusion</b>; additional donors routed to <b>Blood Bank Reserve</b>.
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200">
+                Patient: 2/2 Units Targeted
+              </span>
+              <span id="bufferCountBadge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-800 border border-sky-200">
+                0 Buffer Donors
+              </span>
+            </div>
+          </div>
+
+          <!-- ALLOCATION CARDS CONTAINER -->
+          <div id="allocationCardsFeed" class="space-y-3">
+            <!-- Dynamic donor cards injected here -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT 4 COLS: PREDEFINED CLUBS & WHATSAPP BROADCAST -->
+      <div class="lg:col-span-4 space-y-6">
+
+        <!-- PREDEFINED PARTNER CLUBS DIRECTORY -->
+        <div class="bg-white rounded-2xl p-5 border border-surface-variant shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-surface-variant pb-3">
+            <div>
+              <h2 class="font-bold text-base text-on-surface" style="font-family: 'Montserrat', sans-serif;">
+                Partner Clubs & NGOs
+              </h2>
+              <p class="text-xs text-on-surface-variant">Predefined emergency contacts</p>
+            </div>
+            <span class="text-xs font-bold px-2 py-0.5 bg-slate-100 text-slate-700 rounded-full font-mono border border-slate-200">
+              5 Pre-saved
+            </span>
+          </div>
+
+          <!-- Organizations List -->
+          <div id="clubsList" class="space-y-2.5">
+            <!-- Rendered by JS -->
+          </div>
+
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600 leading-normal">
+            ℹ️ Clicking <b>Send WhatsApp</b> opens an official pre-filled urgent dispatch message with the live GPS response link.
+          </div>
+        </div>
+
+        <!-- EMERGENCY SUMMARY STATS -->
+        <div class="bg-white rounded-2xl p-5 border border-surface-variant shadow-sm space-y-3 text-xs">
+          <h3 class="font-bold text-sm text-on-surface uppercase tracking-wider text-slate-500">
+            Emergency Dispatch Protocol
+          </h3>
+          <div class="space-y-2 text-slate-600">
+            <div class="flex justify-between py-1 border-b border-slate-100">
+              <span>Required Units:</span>
+              <b class="text-slate-800">2 Units (O- Negative)</b>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-100">
+              <span>Primary Allocation:</span>
+              <b class="text-rose-700">Immediate Surgery Transfusion</b>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-100">
+              <span>Surplus Blood Handling:</span>
+              <b class="text-sky-700">Hospital Blood Bank Storage</b>
+            </div>
+            <div class="flex justify-between py-1 border-b border-slate-100">
+              <span>Donor Safety Cooldown:</span>
+              <b class="text-emerald-700">90 Days (Enforced on Form)</b>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    // =========================================================================
+    // 1. PREDEFINED HOSPITAL (DESTINATION) & EMERGENCY DETAILS
+    // =========================================================================
+    const HOSPITAL_DESTINATION = {
+      name: "Jubilee Mission Medical College Hospital, Thrissur",
+      shortName: "Jubilee Mission Hospital",
+      lat: 10.5246,
+      lng: 76.2241,
+      ward: "Trauma ICU Surgery",
+      neededBlood: "O-",
+      unitsNeededForPatient: 2
+    };
+
+    // =========================================================================
+    // 2. PREDEFINED PARTNER CLUBS & CHARITY ORGANIZATIONS
+    // =========================================================================
+    const PREDEFINED_CLUBS = [
+      {
+        id: "CLUB-1",
+        name: "Indian Red Cross Society (Thrissur Chapter)",
+        category: "Disaster Relief NGO",
+        phone: "+918606197840",
+        distance: "2.4 km away",
+        icon: "volunteer_activism"
+      },
+      {
+        id: "CLUB-2",
+        name: "Lions Club Emergency Blood Committee",
+        category: "Community Charity",
+        phone: "+916282489070",
+        distance: "4.1 km away",
+        icon: "groups"
+      },
+      {
+        id: "CLUB-3",
+        name: "Rotary Club Emergency Donors Wing",
+        category: "Service Organization",
+        phone: "+918943814609",
+        distance: "5.0 km away",
+        icon: "health_and_safety"
+      },
+      {
+        id: "CLUB-4",
+        name: "NSS Youth Volunteers Brigade",
+        category: "Student Youth Wing",
+        phone: "+919745044444",
+        distance: "6.8 km away",
+        icon: "school"
+      },
+      {
+        id: "CLUB-5",
+        name: "Auto & Taxi Drivers Welfare Ambulance Club",
+        category: "First Responders",
+        phone: "+919895055555",
+        distance: "3.2 km away",
+        icon: "local_taxi"
+      }
+    ];
+
+    // =========================================================================
+    // 3. SEED DONOR POOL (Simulating multiple respondents)
+    // =========================================================================
+    let incomingDonors = [];
+
+    let map = null;
+    let hospitalMarker = null;
+    let mapMarkers = [];
+    let routeLayers = [];
+
+    // =========================================================================
+    // 4. MAP INITIALIZATION & RENDERING
+    // =========================================================================
+    
+    // Initialize Socket connection
+    const socket = io();
+    
+    // Join the specific emergency room to listen for live locations
+    socket.emit('join_emergency', 'REQ-8992');
+    
+    // When backend pushes live donor location updates
+    socket.on('responders_update', (responders) => {
+        incomingDonors = responders.map((r, idx) => {
+            const dist = haversine(r.lat, r.lng, HOSPITAL_DESTINATION.lat, HOSPITAL_DESTINATION.lng);
+            const roadDist = parseFloat((dist * 1.3).toFixed(1));
+            const eta = Math.round((roadDist / 45) * 60);
+
+            return {
+                id: r.socketId,
+                name: r.name || r.responderId,
+                phone: r.phone || "Live tracking...",
+                bloodGroup: HOSPITAL_DESTINATION.neededBlood,
+                startingCity: "Live GPS Stream",
+                lat: r.lat,
+                lng: r.lng,
+                distanceKm: roadDist,
+                etaMinutes: eta,
+                transportMode: "Live"
+            };
+        });
+        
+        refreshAll();
+    });
+
+    function initMap() {
+      map = L.map('liveDispatchMap').setView([10.6500, 76.4400], 10);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+
+      // Render Hospital Destination Beacon
+      const icon = L.divIcon({
+        className: 'hospital-beacon',
+        html: 'H',
+        iconSize: [38, 38],
+        iconAnchor: [19, 19]
+      });
+
+      hospitalMarker = L.marker([HOSPITAL_DESTINATION.lat, HOSPITAL_DESTINATION.lng], { icon })
+        .addTo(map)
+        .bindPopup(`
+          <div style="font-family:sans-serif; min-width:180px;">
+            <b style="color:#9e0027; font-size:11px; text-transform:uppercase;">DESTINATION VENUE</b>
+            <h4 style="margin:2px 0; font-size:14px;">${HOSPITAL_DESTINATION.name}</h4>
+            <p style="margin:0; font-size:12px; color:#555;">Critical Need: <b>${HOSPITAL_DESTINATION.neededBlood} Blood</b></p>
+          </div>
+        `);
+
+      // 10 km Geofence circle
+      L.circle([HOSPITAL_DESTINATION.lat, HOSPITAL_DESTINATION.lng], {
+        color: '#9e0027',
+        fillColor: '#ffdad6',
+        fillOpacity: 0.1,
+        radius: 10000
+      }).addTo(map);
+
+      renderClubsList();
+      
+
+      
+
+      
+    }
+
+    
+
+    // =========================================================================
+    // 5. ALLOCATION ENGINE: PATIENT DIRECT VS BLOOD BANK BUFFER
+    // =========================================================================
+    function refreshAll() {
+      // Sort donors by ETA (fastest first)
+      incomingDonors.sort((a, b) => a.etaMinutes - b.etaMinutes);
+
+      // Clean existing markers
+      mapMarkers.forEach(m => map.removeLayer(m));
+      routeLayers.forEach(l => map.removeLayer(l));
+      mapMarkers = [];
+      routeLayers = [];
+
+      const feedContainer = document.getElementById('allocationCardsFeed');
+      feedContainer.innerHTML = '';
+
+      let bufferCount = 0;
+
+      incomingDonors.forEach((donor, idx) => {
+        // Top 2 donors go to Patient, Rest go to Blood Bank Buffer
+        const isForPatient = idx < HOSPITAL_DESTINATION.unitsNeededForPatient;
+        if (!isForPatient) bufferCount++;
+
+        const color = isForPatient ? '#137333' : '#005278';
+        const badgeTag = isForPatient 
+          ? `<span class="bg-rose-100 text-rose-800 border border-rose-200 px-2 py-0.5 rounded font-bold text-[10px] uppercase">🚨 For Patient Surgery</span>`
+          : `<span class="bg-sky-100 text-sky-800 border border-sky-200 px-2 py-0.5 rounded font-bold text-[10px] uppercase">🏥 Blood Bank Storage</span>`;
+
+        // Draw Route Line to Thrissur Hospital
+        const line = L.polyline([
+          [donor.lat, donor.lng],
+          [HOSPITAL_DESTINATION.lat, HOSPITAL_DESTINATION.lng]
+        ], {
+          color: color,
+          weight: isForPatient ? 4 : 2,
+          dashArray: isForPatient ? null : '5, 8',
+          opacity: 0.8
+        }).addTo(map);
+        routeLayers.push(line);
+
+        // Marker on Map
+        const markerIcon = L.divIcon({
+          className: 'donor-badge',
+          html: `
+            <div class="donor-map-badge" style="background:${color};">
+              <span>#${idx+1}</span>
+              <span>📍 ${donor.name.split(' ')[0]}</span>
+              <span style="background:rgba(0,0,0,0.25); padding:1px 4px; border-radius:4px;">~${donor.etaMinutes}m</span>
+            </div>
+          `,
+          iconSize: [110, 26]
+        });
+
+        const m = L.marker([donor.lat, donor.lng], { icon: markerIcon }).addTo(map);
+        m.bindPopup(`
+          <div style="font-family:sans-serif; min-width:180px;">
+            <div style="font-size:10px; font-weight:bold; color:${color}; text-transform:uppercase;">
+              ${isForPatient ? 'ALLOCATED: PATIENT TRANSFUSION' : 'ALLOCATED: BLOOD BANK BUFFER'}
+            </div>
+            <b style="font-size:14px;">${donor.name}</b>
+            <div style="font-size:12px; color:#666; margin:2px 0;">Start: <b>${donor.startingCity || 'Live GPS'}</b></div>
+            <div style="font-size:12px; color:#666;">Dist to Thrissur: <b>${donor.distanceKm || donor.roadDistKm} km</b> • ETA: <b>~${donor.etaMinutes} mins</b></div>
+            <div style="margin-top:8px; display:flex; gap:4px;">
+              <a href="tel:${donor.phone}" style="background:#137333; color:#fff; padding:4px 8px; border-radius:4px; font-size:11px; text-decoration:none; font-weight:bold;">Call</a>
+              <a href="https://www.google.com/maps/dir/?api=1&origin=${donor.lat},${donor.lng}&destination=${HOSPITAL_DESTINATION.lat},${HOSPITAL_DESTINATION.lng}" target="_blank" style="background:#005278; color:#fff; padding:4px 8px; border-radius:4px; font-size:11px; text-decoration:none; font-weight:bold;">Directions</a>
+            </div>
+          </div>
+        `);
+        mapMarkers.push(m);
+
+        // Feed Card
+        const card = document.createElement('div');
+        card.className = `p-3.5 rounded-xl border transition flex flex-col md:flex-row md:items-center justify-between gap-3 ${
+          isForPatient 
+            ? 'bg-rose-50/70 border-rose-200' 
+            : 'bg-slate-50 border-slate-200 opacity-90'
+        }`;
+
+        card.innerHTML = `
+          <div class="flex items-start gap-3">
+            <span class="w-7 h-7 rounded-full flex items-center justify-center font-black text-xs shrink-0 ${
+              isForPatient ? 'bg-primary text-white' : 'bg-slate-300 text-slate-700'
+            }">
+              #${idx+1}
+            </span>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-sm text-on-surface">${donor.name}</span>
+                ${badgeTag}
+              </div>
+              <p class="text-xs text-on-surface-variant mt-0.5">
+                Starting: <b>${donor.startingCity || 'Kerala GPS'}</b> • Mode: <b class="capitalize">${donor.transportMode || 'Car'}</b> • Blood: <b>${donor.bloodGroup}</b>
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 justify-between md:justify-end border-t md:border-t-0 pt-2 md:pt-0 border-slate-200">
+            <div class="text-left md:text-right">
+              <span class="text-[10px] text-slate-500 block">ETA to Thrissur</span>
+              <span class="font-black text-base ${isForPatient ? 'text-primary' : 'text-slate-700'}">~${donor.etaMinutes} mins</span>
+              <span class="text-[10px] text-slate-500 block">(${donor.distanceKm || donor.roadDistKm} km)</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <a href="tel:${donor.phone}" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold flex items-center gap-1 shadow">
+                <span class="material-symbols-outlined text-[14px]">call</span> Call
+              </a>
+              <a href="https://www.google.com/maps/dir/?api=1&origin=${donor.lat},${donor.lng}&destination=${HOSPITAL_DESTINATION.lat},${HOSPITAL_DESTINATION.lng}" target="_blank" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-bold flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">navigation</span> Map
+              </a>
+            </div>
+          </div>
+        `;
+
+        feedContainer.appendChild(card);
+      });
+
+      document.getElementById('bufferCountBadge').textContent = `${bufferCount} Buffer Donors for Blood Bank`;
+    }
+
+    // =========================================================================
+    // 6. WHATSAPP BROADCAST FUNCTIONS
+    // =========================================================================
+    function renderClubsList() {
+      const container = document.getElementById('clubsList');
+      container.innerHTML = '';
+
+      PREDEFINED_CLUBS.forEach(club => {
+        const item = document.createElement('div');
+        item.className = "flex items-center justify-between p-3 rounded-xl border border-surface-variant bg-slate-50 hover:bg-slate-100 transition";
+
+        item.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[18px]">${club.icon}</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-xs text-on-surface leading-tight">${club.name}</h4>
+              <p class="text-[11px] text-on-surface-variant">${club.phone} • ${club.distance}</p>
+            </div>
+          </div>
+          <button onclick="sendSingleClubWhatsApp('${club.phone}', '${club.name}')" class="bg-[#25D366] hover:bg-emerald-600 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg flex items-center gap-1 shadow transition">
+            <span class="material-symbols-outlined text-[14px]">chat</span>
+            <span>Alert</span>
+          </button>
+        `;
+
+        container.appendChild(item);
+      });
+    }
+
+    function generateEmergencyMessage(recipientName) {
+      const publicLink = window.location.origin + "/emergency_response.html?req=REQ-8992&bg=O-&venue=Thrissur";
+      return encodeURIComponent(
+`🚨 *URGENT BLOOD DISPATCH REQUEST* 🚨
+*LifeLink Emergency Network*
+
+🏥 *Hospital Venue:* ${HOSPITAL_DESTINATION.name}
+🩸 *Blood Group:* ${HOSPITAL_DESTINATION.neededBlood} Negative (2 Units Required)
+⚠️ *Case Urgency:* Critical Trauma Surgery
+
+Dear *${recipientName}*,
+We have triggered an emergency blood call. If your volunteers or members are in the vicinity, please have them register using this live GPS tracking link:
+
+👉 *Live GPS Response Link:*
+${publicLink}
+
+_Donors who arrive fastest will directly support the patient; additional units will be stored into the hospital's emergency blood bank._`
+      );
+    }
+
+    function sendSingleClubWhatsApp(phone, clubName) {
+      const cleanPhone = phone.replace(/[^0-9]/g, '');
+      const msg = generateEmergencyMessage(clubName);
+      window.open(`https://api.whatsapp.com/send?phone=${cleanPhone}&text=${msg}`, '_blank');
+    }
+
+    async function broadcastToAllClubsWhatsApp() {
+      const btn = document.querySelector('button[onclick="broadcastToAllClubsWhatsApp()"]');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">refresh</span> Broadcasting...';
+      btn.disabled = true;
+
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          alert('You must be logged in as a hospital to use automated broadcast.');
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+          return;
+        }
+
+        const res = await fetch('/api/emergency/broadcast', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({
+            bloodType: HOSPITAL_DESTINATION.neededBlood,
+            unitsNeeded: HOSPITAL_DESTINATION.unitsNeededForPatient
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          alert('✅ Successfully broadcasted automated Twilio alert to ' + data.data.recipients + ' predefined clubs/NGOs!');
+          btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check</span> Automated Sent';
+          btn.classList.replace('bg-[#25D366]', 'bg-emerald-700');
+        } else {
+          alert('Failed to send broadcast: ' + data.error);
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Network error while triggering automated broadcast.');
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    function sharePublicLinkWhatsApp() {
+      const msg = generateEmergencyMessage("Friends & Community Groups");
+      window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
+    }
+
+    function copyPublicLink() {
+      const link = document.getElementById('publicLinkText').textContent.trim();
+      navigator.clipboard.writeText(link).then(() => {
+        const btn = document.getElementById('copyBtnText');
+        btn.textContent = "Copied! ✓";
+        setTimeout(() => { btn.textContent = "Copy Link"; }, 2000);
+      });
+    }
+
+    // =========================================================================
+    // 7. SIMULATION CONTROLS (DEMO ACTIONS)
+    // =========================================================================
+    
+
+    
+
+    
+
+    
+
+    function haversine(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+
+    window.addEventListener('DOMContentLoaded', initMap);
+  </script>
+</body>
+</html>

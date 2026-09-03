@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Create Request - LifeLink</title>
+  
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#f8f9fa",
+            "primary": "#9e0027",
+            "primary-container": "#c41e3a",
+            "on-primary": "#ffffff",
+            "secondary": "#356382",
+            "secondary-container": "#acdafe",
+            "on-secondary": "#ffffff",
+            "surface-variant": "#e1e3e4",
+            "on-surface": "#191c1d",
+            "on-surface-variant": "#5b4040",
+            "outline-variant": "#e3bebd"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen">
+
+  <!-- Desktop Header Navigation -->
+  <header class="hidden md:flex items-center justify-between px-8 h-16 bg-white border-b border-surface-variant sticky top-0 z-40 shadow-sm">
+    <a href="/emergency_response.html" class="font-bold text-xl text-primary flex items-center gap-2" style="font-family: 'Montserrat', sans-serif;">
+      <span class="material-symbols-outlined text-2xl text-primary" style="font-variation-settings: 'FILL' 1;">favorite</span>
+      <span>LifeLink</span>
+    </a>
+    <nav class="flex items-center gap-6 absolute left-1/2 -translate-x-1/2 text-sm font-semibold">
+      <a href="hospital_dashboard.html" class="text-on-surface-variant hover:text-primary transition-colors">Overview</a>
+      <a href="/emergency_response.html" class="text-on-surface-variant hover:text-primary transition-colors">Live Requests</a>
+      <a href="hospital_requests.html" class="text-on-surface-variant hover:text-primary transition-colors">Outreach & WhatsApp</a>
+      <a href="donor_database.html" class="text-on-surface-variant hover:text-primary transition-colors">Donor Database</a>
+      <a href="hospital_analytics.html" class="text-on-surface-variant hover:text-primary transition-colors">Analytics</a>
+      <a href="hospital_settings.html" class="text-on-surface-variant hover:text-primary transition-colors">Settings</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-3 border-r border-surface-variant pr-4">
+        <div class="w-9 h-9 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary font-bold text-xs">CH</div>
+        <div class="hidden xl:flex flex-col">
+          <span class="font-bold text-xs text-on-surface">Jubilee Mission Medical College</span>
+          <span class="text-[10px] text-primary font-bold uppercase tracking-wider">Thrissur, Kerala</span>
+        </div>
+      </div>
+      <button onclick="window.location.href='create_request.html'" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-primary-container transition-colors shadow">
+        Create Request
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Creation Form -->
+  <main class="pb-24 pt-8 md:pb-8 px-4 md:px-8 flex flex-col items-center max-w-4xl mx-auto w-full">
+    
+    <div class="text-center mb-6">
+      <span class="text-xs uppercase font-bold text-primary tracking-wider bg-rose-50 border border-rose-200 px-3 py-1 rounded-full">
+        Emergency Dispatch Center
+      </span>
+      <h1 class="text-2xl md:text-3xl text-on-surface font-extrabold mt-2" style="font-family: 'Montserrat', sans-serif;">
+        Broadcast Emergency Blood Request
+      </h1>
+      <p class="text-xs text-slate-500 mt-1 max-w-md mx-auto">
+        Generates a live GPS tracking link for donors and notifies nearby partner clubs via WhatsApp.
+      </p>
+    </div>
+
+    <div class="w-full max-w-xl bg-white rounded-2xl p-6 md:p-8 border border-surface-variant shadow-sm space-y-5">
+      
+      <!-- Blood Group Selection -->
+      <div class="flex flex-col gap-1.5">
+        <label class="text-xs font-bold text-slate-700">Blood Group Required</label>
+        <select id="blood-group" class="w-full rounded-xl border-surface-variant bg-slate-50 p-3 font-semibold text-sm outline-none focus:ring-2 focus:ring-primary">
+          <option value="O-">O Negative (O-)</option>
+          <option value="O+">O Positive (O+)</option>
+          <option value="A-">A Negative (A-)</option>
+          <option value="A+">A Positive (A+)</option>
+          <option value="B-">B Negative (B-)</option>
+          <option value="B+">B Positive (B+)</option>
+          <option value="AB-">AB Negative (AB-)</option>
+          <option value="AB+">AB Positive (AB+)</option>
+        </select>
+      </div>
+
+      <!-- Units Needed & Allocation Note -->
+      <div class="grid grid-cols-2 gap-3">
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold text-slate-700">Units Needed for Patient</label>
+          <input id="units-needed" class="w-full rounded-xl border-surface-variant bg-slate-50 p-3 font-bold text-sm outline-none focus:ring-2 focus:ring-primary" min="1" max="10" type="number" value="2">
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold text-slate-700">Surplus Allocation</label>
+          <div class="p-2.5 rounded-xl bg-sky-50 border border-sky-200 text-[11px] text-sky-800 leading-tight">
+            Additional donors will replenish hospital blood bank buffer.
+          </div>
+        </div>
+      </div>
+
+      <!-- Urgency Level Buttons -->
+      <div class="flex flex-col gap-1.5">
+        <label class="text-xs font-bold text-slate-700">Urgency Level</label>
+        <div class="flex gap-2" id="urgency-buttons">
+          <button type="button" data-val="CRITICAL" class="urgency-btn flex-1 bg-primary text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wide transition shadow-sm">
+            Critical (Surgery)
+          </button>
+          <button type="button" data-val="HIGH" class="urgency-btn flex-1 bg-slate-100 text-slate-700 py-3 rounded-xl font-bold text-xs uppercase tracking-wide hover:bg-slate-200 transition">
+            High (Today)
+          </button>
+          <button type="button" data-val="NORMAL" class="urgency-btn flex-1 bg-slate-100 text-slate-700 py-3 rounded-xl font-bold text-xs uppercase tracking-wide hover:bg-slate-200 transition">
+            Routine
+          </button>
+        </div>
+      </div>
+
+      <!-- Predefined Destination Venue (Locked) -->
+      <div class="flex flex-col gap-1.5">
+        <div class="flex justify-between items-center">
+          <label class="text-xs font-bold text-slate-700">Destination Hospital Venue (Predefined)</label>
+          <span class="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold border border-emerald-200">Fixed Anchor</span>
+        </div>
+        <div class="flex items-center gap-2.5 bg-slate-50 p-3 rounded-xl border border-surface-variant text-xs text-slate-700">
+          <span class="material-symbols-outlined text-primary text-[20px]">local_hospital</span>
+          <div>
+            <b class="text-slate-900 block">Jubilee Mission Medical College Hospital, Thrissur</b>
+            <span class="text-slate-500 text-[11px]">East Fort, Thrissur (10.5246° N, 76.2241° E) • Trauma ICU</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scanning Radius -->
+      <div class="flex flex-col gap-1.5">
+        <label class="text-xs font-bold text-slate-700">Emergency Scanning Radius (Geofence Perimeter)</label>
+        <select id="scanning-radius" class="w-full rounded-xl border-surface-variant bg-slate-50 p-3 text-xs font-semibold outline-none focus:ring-2 focus:ring-primary">
+          <option value="10">10 km Radius (Immediate Town & Suburbs - Recommended)</option>
+          <option value="25">25 km Radius (Extended District Coverage)</option>
+          <option value="75">75 km Radius (Inter-District e.g., Thrissur + Palakkad)</option>
+        </select>
+      </div>
+
+      <!-- Broadcast Action -->
+      <div class="mt-4 pt-4 border-t border-surface-variant flex flex-col gap-3">
+        <p id="summary-text" class="text-center text-xs text-slate-600">
+          Broadcasting a <span class="font-bold text-primary">CRITICAL</span> request for <span class="font-bold">2</span> units of <span class="font-bold">O-</span> blood.
+        </p>
+        <button type="button" onclick="triggerBroadcastModal()" 
+          class="w-full bg-primary hover:bg-primary-container text-white py-4 rounded-xl font-bold text-sm shadow-md transition flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-[18px]">emergency_share</span>
+          <span>Broadcast & Generate WhatsApp Link</span>
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- POPUP MODAL: BROADCAST SUCCESS & WHATSAPP SHARE -->
+  <div id="broadcastModal" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl border border-slate-100">
+      
+      <div class="text-center space-y-1">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-2 shadow-sm">
+          <span class="material-symbols-outlined text-3xl">check_circle</span>
+        </div>
+        <h3 class="text-xl font-extrabold text-slate-900" style="font-family: 'Montserrat', sans-serif;">
+          Emergency Broadcast Active!
+        </h3>
+        <p class="text-xs text-slate-500">
+          REQ-8992 is now live. Share the responsive link or alert partner clubs directly.
+        </p>
+      </div>
+
+      <!-- Generated Link Box -->
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-2">
+        <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Live Public Response Link</span>
+        <div class="flex items-center gap-2">
+          <input type="text" id="modalLinkInput" readonly
+            class="flex-1 bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono text-slate-800 outline-none"
+            value="http://localhost:3000/emergency_response.html?req=REQ-8992&bg=O-&venue=Thrissur">
+          <button onclick="copyModalLink()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition">
+            <span id="copyModalBtnText">Copy</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick WhatsApp Buttons -->
+      <div class="space-y-2">
+        <button onclick="shareOnWhatsAppDirect()" class="w-full py-3.5 bg-[#25D366] hover:bg-emerald-600 text-white font-bold text-xs rounded-xl shadow flex items-center justify-center gap-2 transition">
+          <span class="material-symbols-outlined text-[18px]">send</span>
+          <span>Share Link on WhatsApp / Groups</span>
+        </button>
+
+        <button onclick="window.location.href='hospital_requests.html'" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow flex items-center justify-center gap-2 transition">
+          <span class="material-symbols-outlined text-[18px]">groups</span>
+          <span>Alert Partner Clubs (Red Cross, Lions, Rotary)</span>
+        </button>
+      </div>
+
+      <div class="text-center pt-1">
+        <button onclick="closeModal()" class="text-xs text-slate-400 hover:text-slate-600 underline">
+          Close and monitor live incoming donors
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const bloodGroupSelect = document.getElementById('blood-group');
+    const unitsInput = document.getElementById('units-needed');
+    const urgencyButtons = document.querySelectorAll('.urgency-btn');
+    const summaryText = document.getElementById('summary-text');
+    let currentUrgency = 'CRITICAL';
+
+    function updateSummary() {
+      const bg = bloodGroupSelect.value;
+      const units = unitsInput.value || 0;
+      summaryText.innerHTML = `Broadcasting a <span class="font-bold text-primary">${currentUrgency}</span> request for <span class="font-bold">${units}</span> units of <span class="font-bold">${bg}</span> blood.`;
+    }
+
+    bloodGroupSelect.addEventListener('change', updateSummary);
+    unitsInput.addEventListener('input', updateSummary);
+
+    urgencyButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        urgencyButtons.forEach(b => {
+          b.className = "urgency-btn flex-1 bg-slate-100 text-slate-700 py-3 rounded-xl font-bold text-xs uppercase tracking-wide hover:bg-slate-200 transition";
+        });
+        currentUrgency = btn.getAttribute('data-val');
+        btn.className = "urgency-btn flex-1 bg-primary text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wide transition shadow-sm";
+        updateSummary();
+      });
+    });
+
+    // Broadcast Trigger & Modal Handling
+    function triggerBroadcastModal() {
+      const bg = bloodGroupSelect.value;
+      const units = unitsInput.value;
+      const radius = document.getElementById('scanning-radius').value;
+
+      // Construct live public URL
+      const publicUrl = window.location.origin + `/emergency_response.html?req=REQ-8992&bg=${bg}&units=${units}&radius=${radius}&venue=Thrissur`;
+      document.getElementById('modalLinkInput').value = publicUrl;
+
+      // Save emergency details to localStorage
+      const emergencyData = {
+        reqId: "REQ-8992",
+        bloodGroup: bg,
+        unitsNeeded: units,
+        urgency: currentUrgency,
+        hospitalName: "Jubilee Mission Hospital, Thrissur",
+        hospitalLat: 10.5246,
+        hospitalLng: 76.2241,
+        radiusKm: radius,
+        publicUrl: publicUrl,
+        timestamp: new Date().toLocaleTimeString()
+      };
+      localStorage.setItem('lifelink_active_emergency', JSON.stringify(emergencyData));
+
+      // Show modal
+      document.getElementById('broadcastModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('broadcastModal').classList.add('hidden');
+      window.location.href = 'hospital_requests.html';
+    }
+
+    function copyModalLink() {
+      const input = document.getElementById('modalLinkInput');
+      input.select();
+      navigator.clipboard.writeText(input.value).then(() => {
+        const btn = document.getElementById('copyModalBtnText');
+        btn.textContent = "Copied! ✓";
+        setTimeout(() => { btn.textContent = "Copy"; }, 2000);
+      });
+    }
+
+    function shareOnWhatsAppDirect() {
+      const bg = bloodGroupSelect.value;
+      const units = unitsInput.value;
+      const url = document.getElementById('modalLinkInput').value;
+
+      const msg = encodeURIComponent(
+`🚨 *URGENT BLOOD DISPATCH ALERT* 🚨
+*LifeLink Emergency Network*
+
+🏥 *Destination Venue:* Jubilee Mission Hospital, Thrissur (Trauma ICU)
+🩸 *Blood Needed:* ${bg} (${units} Units Required)
+⚠️ *Urgency Level:* ${currentUrgency} SURGERY
+
+If you are nearby or know willing donors, please tap the live GPS link below to check your distance and respond:
+
+👉 *GPS Response Link:*
+${url}
+
+_Donors who arrive fastest will directly support the patient; additional units will be safely stored into the hospital's emergency blood bank._`
+      );
+
+      window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
+    }
+  </script>
+</body>
+</html>

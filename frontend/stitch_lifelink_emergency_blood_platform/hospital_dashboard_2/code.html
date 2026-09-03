@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LifeLink Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Montserrat:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f3f4f5",
+                        "inverse-surface": "#2e3132",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#d9dadb",
+                        "surface": "#f8f9fa",
+                        "primary-fixed-dim": "#ffb3b4",
+                        "surface-variant": "#e1e3e4",
+                        "on-secondary-fixed": "#001e2f",
+                        "on-primary": "#ffffff",
+                        "secondary": "#356382",
+                        "on-background": "#191c1d",
+                        "outline-variant": "#e3bebd",
+                        "on-tertiary-container": "#cae6ff",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-surface": "#191c1d",
+                        "inverse-on-surface": "#f0f1f2",
+                        "primary-container": "#c41e3a",
+                        "surface-bright": "#f8f9fa",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#ffdada",
+                        "tertiary": "#005278",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#004b6f",
+                        "on-secondary-container": "#31607f",
+                        "tertiary-fixed": "#cae6ff",
+                        "on-surface-variant": "#5b4040",
+                        "primary": "#9e0027",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-container": "#edeeef",
+                        "primary-fixed": "#ffdad9",
+                        "on-secondary-fixed-variant": "#184b69",
+                        "error": "#ba1a1a",
+                        "background": "#f8f9fa",
+                        "on-primary-fixed": "#40000a",
+                        "inverse-primary": "#ffb3b4",
+                        "secondary-container": "#acdafe",
+                        "secondary-fixed-dim": "#9fccef",
+                        "tertiary-container": "#006b9c",
+                        "on-primary-fixed-variant": "#920023",
+                        "on-tertiary-fixed": "#001e2f",
+                        "surface-tint": "#ba1434",
+                        "secondary-fixed": "#c9e6ff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#8ccdff",
+                        "outline": "#8f6f6f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-margin-mobile": "20px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "base": "8px",
+                        "container-margin-desktop": "40px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "label-bold": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-margin-mobile md:px-container-margin-desktop py-4 bg-surface/95 backdrop-blur-sm bg-surface-container shadow-sm shadow-[0px_4px_20px_rgba(0,0,0,0.04)]">
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-headline-md font-bold text-primary">LifeLink</span>
+<div class="hidden md:flex gap-6 ml-8">
+<a class="text-primary border-b-2 border-primary pb-1 font-bold" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Requests</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Outreach</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Donors</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:block bg-primary-container text-on-primary-container px-4 py-2 rounded-lg font-label-bold">Request Blood</button>
+<div class="flex gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">account_circle</span>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Desktop) -->
+<aside class="hidden md:flex flex-col h-screen fixed left-0 top-0 pt-24 p-stack-md z-40 w-64 bg-surface-container-low border-r border-surface-variant">
+<div class="mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 bg-primary-container rounded-full flex items-center justify-center text-on-primary-container font-bold">CH</div>
+<div>
+<h2 class="font-headline-md text-body-md font-bold text-primary">City Central Hospital</h2>
+<p class="font-label-md text-label-md text-on-surface-variant">Verified Medical Center</p>
+</div>
+</div>
+</div>
+<nav class="flex flex-col gap-2 flex-grow">
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-bold" href="#">
+<span class="material-symbols-outlined">dashboard</span> Overview
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">emergency</span> Live Requests
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">groups</span> Donor Database
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">monitoring</span> Analytics
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+            </a>
+</nav>
+<button class="w-full bg-primary text-on-primary py-3 rounded-lg font-label-bold mt-auto hover:opacity-90 transition-opacity shadow-[0px_4px_20px_rgba(0,0,0,0.04)]">Create Request</button>
+</aside>
+<!-- Main Content -->
+<main class="pt-24 pb-24 md:pb-8 px-container-margin-mobile md:px-container-margin-desktop md:ml-64 flex flex-col gap-stack-lg max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+<div>
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Hospital Dashboard</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage urgent blood requests and monitor local supply.</p>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary">circle</span> Live System Status: Operational
+            </div>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Urgent Request Card (Col 1-4) -->
+<div class="lg:col-span-4 bg-surface-container-lowest rounded-xl p-stack-md border border-surface-variant shadow-[0px_4px_20px_rgba(0,0,0,0.04)] flex flex-col gap-4">
+<h2 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">emergency</span> Create Urgent Request
+                </h2>
+<div class="flex flex-col gap-3">
+<label class="font-label-md text-label-md text-on-surface-variant">Blood Group</label>
+<select class="w-full rounded-lg border-surface-variant bg-surface p-2 focus:ring-2 focus:ring-secondary focus:border-secondary font-body-md text-body-md">
+<option>O Negative (O-)</option>
+<option>O Positive (O+)</option>
+<option>A Negative (A-)</option>
+<option>A Positive (A+)</option>
+</select>
+</div>
+<div class="flex flex-col gap-3">
+<label class="font-label-md text-label-md text-on-surface-variant">Units Needed</label>
+<input class="w-full rounded-lg border-surface-variant bg-surface p-2 focus:ring-2 focus:ring-secondary focus:border-secondary font-body-md text-body-md" min="1" type="number" value="4"/>
+</div>
+<div class="flex flex-col gap-3">
+<label class="font-label-md text-label-md text-on-surface-variant">Urgency Level</label>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary-container text-on-primary-container border border-primary py-2 rounded-lg font-label-bold text-center">Critical</button>
+<button class="flex-1 bg-surface-variant text-on-surface-variant py-2 rounded-lg font-label-bold text-center hover:bg-surface-container-high transition-colors">High</button>
+<button class="flex-1 bg-surface-variant text-on-surface-variant py-2 rounded-lg font-label-bold text-center hover:bg-surface-container-high transition-colors">Normal</button>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<label class="font-label-md text-label-md text-on-surface-variant">Location (Auto-filled)</label>
+<div class="flex items-center gap-2 bg-surface-container-low p-2 rounded-lg border border-surface-variant text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined">location_on</span> City Central Hospital, Trauma Ward A
+                    </div>
+</div>
+<button class="w-full bg-primary text-on-primary py-3 rounded-lg font-label-bold mt-2 hover:opacity-90 transition-opacity shadow-[0px_4px_20px_rgba(0,0,0,0.04)]">Broadcast Request</button>
+</div>
+<!-- Interactive Map (Col 5-12) -->
+<div class="lg:col-span-8 bg-surface-container-lowest rounded-xl p-stack-md border border-surface-variant shadow-[0px_4px_20px_rgba(0,0,0,0.04)] flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h2 class="font-headline-md text-headline-md text-on-surface">Local Blood Banks &amp; Partners</h2>
+<div class="flex gap-4 font-label-md text-label-md">
+<span class="flex items-center gap-1 text-on-surface-variant"><div class="w-3 h-3 rounded-full bg-[#1B4D6B]"></div> Sufficient</span>
+<span class="flex items-center gap-1 text-on-surface-variant"><div class="w-3 h-3 rounded-full bg-[#D4AF37]"></div> Low</span>
+<span class="flex items-center gap-1 text-on-surface-variant"><div class="w-3 h-3 rounded-full bg-[#C41E3A]"></div> Out</span>
+</div>
+</div>
+<div class="flex-grow rounded-lg overflow-hidden border border-surface-variant relative min-h-[300px]">
+<img class="w-full h-full object-cover" data-alt="A stylized, light-mode interactive map of a city layout featuring subtle gray roads and white blocks. It represents a medical dashboard interface. The map is clean and modern, devoid of real-world satellite imagery, focusing on clear data visualization. It has a high-tech yet approachable corporate aesthetic." data-location="New York" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA8TgPcfUB_gyGRqKT_QvW6dsFcRi5pIsGLHE-iN0fQWYezorlcuV-P_reBxMVKsaWEXQ2bdLu9z0aBvfk2aaUb8bpCUqhO2jNw1XRH8tGRSSzQEHA8WKgfPE9IR4n7EoUgfmlTxsUBsyHVJJFsdXOB-n0axDLd40UT1et031R99V8FxsoAL6OemOWi3YuStgHOUuQov2rgZDcjsawpKvXxkGGvAdVve0ErU_AKpgRd9TY3wjLdK3L"/>
+<!-- Map Pins (Simulated) -->
+<div class="absolute top-1/4 left-1/3 group cursor-pointer">
+<span class="material-symbols-outlined text-[#1B4D6B] text-3xl shadow-sm drop-shadow-md">location_on</span>
+<div class="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-surface-container-lowest p-3 rounded-lg shadow-lg border border-surface-variant w-48 z-10">
+<p class="font-label-bold text-label-bold text-on-surface">Metro Blood Center</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Distance: 1.2 mi</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">O- Units: <span class="text-[#1B4D6B] font-bold">12</span></p>
+</div>
+</div>
+<div class="absolute top-1/2 left-2/3 group cursor-pointer">
+<span class="material-symbols-outlined text-[#D4AF37] text-3xl shadow-sm drop-shadow-md">location_on</span>
+<div class="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-surface-container-lowest p-3 rounded-lg shadow-lg border border-surface-variant w-48 z-10">
+<p class="font-label-bold text-label-bold text-on-surface">Eastside Clinic</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Distance: 3.5 mi</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">O- Units: <span class="text-[#D4AF37] font-bold">3</span></p>
+</div>
+</div>
+<div class="absolute bottom-1/4 left-1/2 group cursor-pointer">
+<span class="material-symbols-outlined text-[#C41E3A] text-3xl shadow-sm drop-shadow-md">location_on</span>
+<div class="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-surface-container-lowest p-3 rounded-lg shadow-lg border border-surface-variant w-48 z-10">
+<p class="font-label-bold text-label-bold text-on-surface">South Hub Hospital</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Distance: 5.1 mi</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">O- Units: <span class="text-[#C41E3A] font-bold">0</span></p>
+</div>
+</div>
+</div>
+</div>
+<!-- Status Stepper (Full Width below) -->
+<div class="lg:col-span-12 bg-surface-container-lowest rounded-xl p-stack-md border border-surface-variant shadow-[0px_4px_20px_rgba(0,0,0,0.04)]">
+<h3 class="font-headline-md text-body-lg font-bold text-on-surface mb-6">Active Urgent Request Status (O-)</h3>
+<div class="relative flex items-center justify-between w-full">
+<!-- Progress Line Background -->
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-surface-variant -z-10"></div>
+<!-- Active Progress Line -->
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-1/3 h-1 bg-primary -z-10 transition-all duration-500"></div>
+<!-- Step 1: Bank Search -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-bold shadow-md">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<span class="font-label-bold text-label-bold text-secondary">Bank Search</span>
+</div>
+<!-- Step 2: Broadcast Sent (Active) -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold shadow-md ring-4 ring-primary-container">
+                            2
+                        </div>
+<span class="font-label-bold text-label-bold text-primary">Broadcast Sent</span>
+</div>
+<!-- Step 3: Donors Responding -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface text-on-surface-variant border-2 border-surface-variant flex items-center justify-center font-bold">
+                            3
+                        </div>
+<span class="font-label-bold text-label-bold text-on-surface-variant">Donors Responding</span>
+</div>
+<!-- Step 4: Matched -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface text-on-surface-variant border-2 border-surface-variant flex items-center justify-center font-bold">
+                            4
+                        </div>
+<span class="font-label-bold text-label-bold text-on-surface-variant">Matched</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface/95 backdrop-blur-md bg-surface-container-lowest border-t border-surface-variant shadow-lg shadow-[0px_-4px_20px_rgba(0,0,0,0.04)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-xl px-4 py-1 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">add_alert</span>
+<span class="font-label-md text-label-md">Request</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-xl px-4 py-1 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-md text-label-md">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-xl px-4 py-1 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html class="h-full" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>LifeLink - Authentication</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#f3f4f5",
+                        "inverse-surface": "#2e3132",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#d9dadb",
+                        "surface": "#f8f9fa",
+                        "primary-fixed-dim": "#ffb3b4",
+                        "surface-variant": "#e1e3e4",
+                        "on-secondary-fixed": "#001e2f",
+                        "on-primary": "#ffffff",
+                        "secondary": "#356382",
+                        "on-background": "#191c1d",
+                        "outline-variant": "#e3bebd",
+                        "on-tertiary-container": "#cae6ff",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-surface": "#191c1d",
+                        "inverse-on-surface": "#f0f1f2",
+                        "primary-container": "#c41e3a",
+                        "surface-bright": "#f8f9fa",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#ffdada",
+                        "tertiary": "#005278",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#004b6f",
+                        "on-secondary-container": "#31607f",
+                        "tertiary-fixed": "#cae6ff",
+                        "on-surface-variant": "#5b4040",
+                        "primary": "#9e0027",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-container": "#edeeef",
+                        "primary-fixed": "#ffdad9",
+                        "on-secondary-fixed-variant": "#184b69",
+                        "error": "#ba1a1a",
+                        "background": "#f8f9fa",
+                        "on-primary-fixed": "#40000a",
+                        "inverse-primary": "#ffb3b4",
+                        "secondary-container": "#acdafe",
+                        "secondary-fixed-dim": "#9fccef",
+                        "tertiary-container": "#006b9c",
+                        "on-primary-fixed-variant": "#920023",
+                        "on-tertiary-fixed": "#001e2f",
+                        "surface-tint": "#ba1434",
+                        "secondary-fixed": "#c9e6ff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#8ccdff",
+                        "outline": "#8f6f6f"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "container-margin-mobile": "20px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "base": "8px",
+                        "container-margin-desktop": "40px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "label-bold": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Montserrat"]
+                    },
+                    fontSize: {
+                        "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "600" }],
+                        "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "label-md": ["12px", { lineHeight: "16px", fontWeight: "500" }],
+                        "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                        "label-bold": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "700" }],
+                        "body-sm": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+                        "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f8f9fa; }
+        .pill-active {
+            background-color: #c41e3a; /* primary-container */
+            color: #ffffff; /* on-primary */
+            font-weight: 700;
+        }
+        .pill-inactive {
+            background-color: transparent;
+            color: #5b4040; /* on-surface-variant */
+            font-weight: 600;
+        }
+        .pill-inactive:hover {
+            background-color: #e1e3e4; /* surface-variant */
+        }
+        .input-base {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e3bebd;
+            background-color: #f3f4f5;
+            color: #191c1d;
+            outline: none;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+        }
+        .input-base:focus {
+            --tw-ring-color: #356382;
+            --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+            --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+            box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+            border-color: #356382;
+        }
+    </style>
+</head>
+<body class="h-screen w-full flex flex-col items-center justify-center antialiased text-on-background bg-surface py-8 overflow-y-auto">
+
+    <main class="w-full max-w-md px-6 flex flex-col justify-center my-auto">
+        
+        <!-- Brand Header -->
+        <div class="mb-stack-lg text-center">
+            <h1 class="font-display-lg text-headline-md font-bold text-primary flex items-center justify-center gap-2 mb-2">
+                <span id="header-icon" class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_hospital</span>
+                LifeLink
+            </h1>
+            <p id="header-subtitle" class="font-body-lg text-body-lg text-on-surface-variant">Hospital Portal</p>
+        </div>
+
+        <div class="bg-surface-container-lowest p-stack-md md:p-stack-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.04)] border border-surface-variant mb-8">
+            
+            <!-- Toggles Section -->
+            <div class="space-y-4 mb-6">
+                <!-- Role Toggle -->
+                <div class="flex p-1 bg-surface-container-low rounded-lg border border-surface-variant">
+                    <button id="role-hospital" type="button" class="flex-1 py-2 px-4 rounded-md text-sm transition-all pill-active flex justify-center items-center gap-2" onclick="setRole('HOSPITAL')">
+                        <span class="material-symbols-outlined text-sm">local_hospital</span> Hospital
+                    </button>
+                    <button id="role-bloodbank" type="button" class="flex-1 py-2 px-4 rounded-md text-sm transition-all pill-inactive flex justify-center items-center gap-2" onclick="setRole('BLOOD_BANK')">
+                        <span class="material-symbols-outlined text-sm">bloodtype</span> Blood Bank
+                    </button>
+                </div>
+
+                <!-- Mode Toggle -->
+                <div class="flex p-1 bg-surface-container-low rounded-lg border border-surface-variant">
+                    <button id="mode-login" type="button" class="flex-1 py-2 px-4 rounded-md text-sm transition-all pill-active" onclick="setMode('LOGIN')">
+                        Login
+                    </button>
+                    <button id="mode-register" type="button" class="flex-1 py-2 px-4 rounded-md text-sm transition-all pill-inactive" onclick="setMode('REGISTER')">
+                        Register
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form id="auth-form" class="space-y-stack-md" onsubmit="handleSubmit(event)">
+                
+                <!-- Registration Only Fields -->
+                <div id="register-fields" class="hidden space-y-stack-md">
+                    <div>
+                        <label id="lbl-orgName" class="block font-label-bold text-label-bold text-on-surface mb-stack-sm uppercase tracking-wider" for="orgName">Hospital Name</label>
+                        <input class="input-base" id="orgName" placeholder="e.g. City Central Hospital" type="text" />
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-label-bold text-label-bold text-on-surface mb-stack-sm uppercase tracking-wider" for="district">District</label>
+                            <input class="input-base" id="district" placeholder="e.g. Downtown" type="text" />
+                        </div>
+                        <div>
+                            <label class="block font-label-bold text-label-bold text-on-surface mb-stack-sm uppercase tracking-wider" for="phone">Phone</label>
+                            <input class="input-base" id="phone" placeholder="+1 (555) 123-4567" type="tel" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block font-label-bold text-label-bold text-on-surface mb-stack-sm uppercase tracking-wider" for="address">Full Address</label>
+                        <textarea class="input-base" id="address" rows="2" placeholder="123 Medical Way..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Shared Fields -->
+                <div>
+                    <label class="block font-label-bold text-label-bold text-on-surface mb-stack-sm uppercase tracking-wider" for="regId">Registration ID</label>
+                    <input class="input-base" id="regId" placeholder="e.g. HOS-12345-REG" type="text" required />
+                    <p class="text-xs text-on-surface-variant mt-1">This is your unique identifier used to log in.</p>
+                </div>
+
+                <div>
+                    <label class="block font-label-bold text-label-bold text-on-surface mb-stack-sm uppercase tracking-wider" for="password">Secure Password</label>
+                    <input class="input-base" id="password" placeholder="••••••••" type="password" required />
+                    <p id="password-hint" class="text-xs text-on-surface-variant mt-1 hidden">Minimum 8 chars, 1 uppercase, 1 number, 1 special char</p>
+                </div>
+
+                <!-- Banners -->
+                <div id="error-banner" class="hidden bg-error-container text-error p-3 rounded-lg text-sm font-medium mt-4 border border-error/20"></div>
+                <div id="success-banner" class="hidden bg-tertiary-fixed text-tertiary p-3 rounded-lg text-sm font-medium mt-4 border border-tertiary/20"></div>
+
+                <div class="pt-stack-sm">
+                    <button id="submit-btn" class="w-full bg-primary-container text-on-primary rounded-lg py-3 px-4 font-label-bold text-label-bold uppercase tracking-wider hover:bg-primary transition-colors shadow-md active:scale-[0.98]" type="submit">
+                        Login to Hospital
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <script>
+        let currentRole = 'HOSPITAL';
+        let currentMode = 'LOGIN';
+
+        const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        function setRole(role) {
+            currentRole = role;
+            
+            document.getElementById('role-hospital').className = role === 'HOSPITAL' 
+                ? 'flex-1 py-2 px-4 rounded-md text-sm transition-all pill-active flex justify-center items-center gap-2'
+                : 'flex-1 py-2 px-4 rounded-md text-sm transition-all pill-inactive flex justify-center items-center gap-2';
+                
+            document.getElementById('role-bloodbank').className = role === 'BLOOD_BANK' 
+                ? 'flex-1 py-2 px-4 rounded-md text-sm transition-all pill-active flex justify-center items-center gap-2'
+                : 'flex-1 py-2 px-4 rounded-md text-sm transition-all pill-inactive flex justify-center items-center gap-2';
+
+            updateUI();
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            
+            document.getElementById('mode-login').className = mode === 'LOGIN'
+                ? 'flex-1 py-2 px-4 rounded-md text-sm transition-all pill-active'
+                : 'flex-1 py-2 px-4 rounded-md text-sm transition-all pill-inactive';
+                
+            document.getElementById('mode-register').className = mode === 'REGISTER'
+                ? 'flex-1 py-2 px-4 rounded-md text-sm transition-all pill-active'
+                : 'flex-1 py-2 px-4 rounded-md text-sm transition-all pill-inactive';
+
+            updateUI();
+        }
+
+        function updateUI() {
+            const btn = document.getElementById('submit-btn');
+            const roleLabel = currentRole === 'HOSPITAL' ? 'Hospital' : 'Blood Bank';
+            
+            // Update Headers & Labels
+            document.getElementById('header-subtitle').textContent = roleLabel + ' Portal';
+            document.getElementById('header-icon').textContent = currentRole === 'HOSPITAL' ? 'local_hospital' : 'bloodtype';
+            document.getElementById('lbl-orgName').textContent = roleLabel + ' Name';
+            document.getElementById('regId').placeholder = currentRole === 'HOSPITAL' ? 'e.g. HOS-12345-REG' : 'e.g. BB-999-REG';
+
+            if (currentMode === 'LOGIN') {
+                document.getElementById('register-fields').classList.add('hidden');
+                document.getElementById('password-hint').classList.add('hidden');
+                btn.textContent = 'Login to ' + roleLabel;
+                
+                // Clear required attrs for hidden fields
+                document.getElementById('orgName').required = false;
+                document.getElementById('district').required = false;
+                document.getElementById('phone').required = false;
+                document.getElementById('address').required = false;
+            } else {
+                document.getElementById('register-fields').classList.remove('hidden');
+                document.getElementById('password-hint').classList.remove('hidden');
+                btn.textContent = 'Register ' + roleLabel;
+                
+                // Set required attrs for visible fields
+                document.getElementById('orgName').required = true;
+                document.getElementById('district').required = true;
+                document.getElementById('phone').required = true;
+                document.getElementById('address').required = true;
+            }
+            
+            hideBanners();
+        }
+
+        function hideBanners() {
+            document.getElementById('error-banner').classList.add('hidden');
+            document.getElementById('success-banner').classList.add('hidden');
+        }
+
+        function showError(msg) {
+            const banner = document.getElementById('error-banner');
+            banner.textContent = msg;
+            banner.classList.remove('hidden');
+        }
+
+        function showSuccess(msg) {
+            const banner = document.getElementById('success-banner');
+            banner.textContent = msg;
+            banner.classList.remove('hidden');
+        }
+
+        function getSlugifiedEmail(regId, role) {
+            const slug = regId.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const domain = role === 'HOSPITAL' ? '@hospital.lifelink.internal' : '@bb.lifelink.internal';
+            return slug + domain;
+        }
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+            hideBanners();
+            
+            const password = document.getElementById('password').value;
+
+            if (currentMode === 'REGISTER' && !PASSWORD_REGEX.test(password)) {
+                showError('Password does not meet the complexity requirements.');
+                return;
+            }
+
+            const btn = document.getElementById('submit-btn');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = "Processing...";
+
+            const regId = document.getElementById('regId').value.trim();
+            const email = getSlugifiedEmail(regId, currentRole);
+
+            try {
+                if (currentMode === 'LOGIN') {
+                    const res = await fetch('/api/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+                    
+                    const json = await res.json();
+                    if (json.success) {
+                        localStorage.setItem('token', json.data.token);
+                        localStorage.setItem('user', JSON.stringify(json.data.user));
+                        
+                        if (json.data.user.role === 'HOSPITAL') {
+                            window.location.href = '/dashboard';
+                        } else {
+                            window.location.href = '/bb-dashboard';
+                        }
+                    } else {
+                        // For login, generic error is fine
+                        showError('Invalid Registration ID or Password.');
+                    }
+
+                } else {
+                    // Register
+                    const payload = {
+                        name: document.getElementById('orgName').value, 
+                        email,
+                        password,
+                        role: currentRole,
+                        hospitalOrBankDetails: {
+                            name: document.getElementById('orgName').value,
+                            district: document.getElementById('district').value,
+                            address: document.getElementById('address').value,
+                            phone: document.getElementById('phone').value,
+                            registrationId: regId
+                        }
+                    };
+
+                    const res = await fetch('/api/auth/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    const json = await res.json();
+                    if (json.success) {
+                        showSuccess('Registration successful! Please log in.');
+                        setMode('LOGIN');
+                    } else {
+                        // Intercept duplicate email error specifically
+                        if (json.error && json.error.toLowerCase().includes('email already registered')) {
+                            showError('This Registration ID is already in use. Please check your ID or try logging in.');
+                        } else {
+                            showError(json.error || 'Registration failed');
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                showError('Network error. Please try again.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        }
+        
+        // Init
+        updateUI();
+    </script>
+</body>
+</html>
